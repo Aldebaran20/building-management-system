@@ -1,33 +1,35 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BuildingManagementSystem.Models;
+using BuildingManagementSystem.Services;
 
-namespace backend.Controllers
+namespace BuildingManagementSystem.Controllers
 {
 
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class BuildingsController : ControllerBase
     {
-        private readonly BuildingContext _context;
+        private readonly IBuildingService _buildingService;
 
-        public BuildingsController(BuildingContext context)
+        public BuildingsController(IBuildingService buildingService)
         {
-            _context = context;
+            _buildingService = buildingService;
         }
 
         // GET: api/Buildings
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Building>>> GetBuildings()
         {
-            return await _context.Buildings.ToListAsync();
+            var buildings = await _buildingService.GetAllBuildingsAsync();
+            return Ok(buildings);
         }
 
         // GET: api/Buildings/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Building>> GetBuilding(long id)
         {
-            var building = await _context.Buildings.FindAsync(id);
+            var building = await _buildingService.GetBuildingByIdAsync(id);
 
             if (building == null)
             {
@@ -35,6 +37,15 @@ namespace backend.Controllers
             }
 
             return building;
+        }
+
+        // POST: api/Buildings
+        [HttpPost]
+        public async Task<ActionResult<Building>> PostBuilding(Building building)
+        {
+            var newBuilding = await _buildingService.CreateBuildingAsync(building);
+
+            return CreatedAtAction(nameof(GetBuilding), new { id = newBuilding.Id }, newBuilding);
         }
 
         // PUT: api/Buildings/5
@@ -46,15 +57,13 @@ namespace backend.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(building).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                await _buildingService.UpdateBuildingAsync(id, building);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BuildingExists(id))
+                if (!await _buildingService.BuildingExists(id))
                 {
                     return NotFound();
                 }
@@ -67,36 +76,20 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        // POST: api/Buildings
-        [HttpPost]
-        public async Task<ActionResult<Building>> PostBuilding(Building building)
-        {
-            _context.Buildings.Add(building);
-            await _context.SaveChangesAsync();
-
-            // return CreatedAtAction("GetBuilding", new { id = building.Id }, building);
-            return CreatedAtAction(nameof(GetBuilding), new { id = building.Id }, building);
-        }
-
         // DELETE: api/Buildings/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBuilding(long id)
         {
-            var building = await _context.Buildings.FindAsync(id);
+            var building = await _buildingService.GetBuildingByIdAsync(id);
             if (building == null)
             {
                 return NotFound();
             }
 
-            _context.Buildings.Remove(building);
-            await _context.SaveChangesAsync();
+            await _buildingService.DeleteBuildingAsync(id);
 
             return NoContent();
         }
 
-        private bool BuildingExists(long id)
-        {
-            return _context.Buildings.Any(e => e.Id == id);
-        }
     }
 }

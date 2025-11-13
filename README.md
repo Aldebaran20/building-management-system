@@ -135,4 +135,5 @@ development stages.
 
 Flexible usage of [Conventional commits](https://www.conventionalcommits.org/en/v1.0.0/).
 - Should use scope, e.g. [frontend], [backend]
-- Optional usage of commit types, e.g. fix, feat, docs, style
+- Optional usage of commit types, e.g. fix, feat, docs, style, init
+- E.g. init(backend): Initialised the backend

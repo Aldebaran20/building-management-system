@@ -16,11 +16,21 @@ and building management in one platform.
 
 ## Quickstart
 To run development server
+1. Copy `appsettings.json` into a new `appsettings.Development.json` file
+2. Start a postgresql server on port *5432* and create a database
+3. Add a PostgreSQL connection string named *PgSQLConnection*
+4. Run the following command:
 ```bash
 dotnet run --launch-profile https
 ```
 
-Swagger documentation URL: `localhost:7188/swagger`
+Swagger documentation URL: `https://localhost:7090/swagger`
+
+## Database
+Useful commands:
+- `sudo service postgresql {start/restart/stop}`
+- `sudo -u postgres {createdb/dropdb} {db name}`
+- `psql -U postgres`
 
 ## Other Commands
 To generate a controller file:
