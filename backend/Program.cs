@@ -1,12 +1,15 @@
 using Microsoft.EntityFrameworkCore;
 using BuildingManagementSystem.Models;
+using BuildingManagementSystem.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddDbContext<BuildingContext>(opt =>
-    opt.UseInMemoryDatabase("BuildingList"));
+    opt.UseNpgsql(builder.Configuration.GetConnectionString("PgSQLConnection")));
+    // opt.UseInMemoryDatabase("BuildingList"));
+builder.Services.AddScoped<IBuildingService, BuildingService>();
 
 var app = builder.Build();
 
@@ -18,6 +21,15 @@ if (app.Environment.IsDevelopment())
     {
         options.DocumentPath = "/openapi/v1.json";
     });
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<BuildingContext>();
+    context.Database.EnsureCreated();
+    // DbInitializer.Initialize(context);
 }
 
 app.UseHttpsRedirection();
