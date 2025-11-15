@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
-using BuildingManagementSystem.Models;
+using BuildingManagementSystem.Data;
 using BuildingManagementSystem.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
-builder.Services.AddDbContext<BuildingContext>(opt =>
+builder.Services.AddDbContext<ApplicationDBContext>(opt =>
     opt.UseNpgsql(builder.Configuration.GetConnectionString("PgSQLConnection")));
     // opt.UseInMemoryDatabase("BuildingList"));
 builder.Services.AddScoped<IBuildingService, BuildingService>();
@@ -27,7 +27,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
 
-    var context = services.GetRequiredService<BuildingContext>();
+    var context = services.GetRequiredService<ApplicationDBContext>();
     context.Database.EnsureCreated();
     // DbInitializer.Initialize(context);
 }
