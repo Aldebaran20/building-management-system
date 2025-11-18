@@ -1,7 +1,4 @@
-using Microsoft.EntityFrameworkCore;
 using BuildingManagementSystem.DTOs;
-using BuildingManagementSystem.Persistence;
-using BuildingManagementSystem.Persistence.Entities;
 
 namespace BuildingManagementSystem.Services;
 

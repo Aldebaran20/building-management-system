@@ -1,9 +1,5 @@
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 using BuildingManagementSystem.Persistence.Entities;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 
 namespace BuildingManagementSystem.DTOs;
 

@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using BuildingManagementSystem.Services;
 using BuildingManagementSystem.DTOs;
 
@@ -60,14 +59,13 @@ public class BuildingsController : ControllerBase
     [HttpPut("{id}")]
     [EndpointSummary("Update an existing building")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    [ProducesResponseType<ValidationProblemDetails>(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> PutBuilding(long id, SaveBuildingDTO building)
     {
         var updated = await _buildingService.UpdateBuildingAsync(id, building);
         if (!updated)
         {
-            return NotFound($"Building with ID {id} does not exist.");
+            return BadRequest($"Building with ID {id} could not be updated.");
         }
 
         return NoContent();
