@@ -1,19 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using BuildingManagementSystem.DTOs.Buildings;
-using BuildingManagementSystem.Data;
-using BuildingManagementSystem.Data.Entities;
+using BuildingManagementSystem.DTOs;
+using BuildingManagementSystem.Persistence;
+using BuildingManagementSystem.Persistence.Entities;
+using BuildingManagementSystem.Mappings;
 
 namespace BuildingManagementSystem.Services;
-
-public interface IBuildingService
-{
-    public Task<IEnumerable<BuildingDTO>> GetAllBuildingsAsync();
-    public Task<BuildingDTO?> GetBuildingByIdAsync(long id);
-    public Task<Building> CreateBuildingAsync(SaveBuildingDTO building);
-    public Task UpdateBuildingAsync(long id, SaveBuildingDTO building);
-    public Task DeleteBuildingAsync(long id);
-    public Task<bool> BuildingExists(long id);
-}
 
 public class BuildingService : IBuildingService
 {
@@ -28,15 +19,7 @@ public class BuildingService : IBuildingService
     public async Task<IEnumerable<BuildingDTO>> GetAllBuildingsAsync()
     {
         return await _context.Buildings
-            .Select(b => new BuildingDTO(
-                b.Id,
-                b.BuildingName,
-                b.BuildingAddress,
-                b.NumberOfUnits,
-                b.BuildingType,
-                b.BuildingStatus,
-                b.DateAdded
-            ))
+            .Select(b => b.MapToBuildingDto())
             .ToListAsync();
     }
 
@@ -44,19 +27,11 @@ public class BuildingService : IBuildingService
     {     
         return await _context.Buildings
             .Where(b => b.Id == id)
-            .Select(b => new BuildingDTO(
-                b.Id,
-                b.BuildingName,
-                b.BuildingAddress,
-                b.NumberOfUnits,
-                b.BuildingType,
-                b.BuildingStatus,
-                b.DateAdded
-            ))
+            .Select(b => b.MapToBuildingDto())
             .FirstOrDefaultAsync();
     }
 
-    public async Task<Building> CreateBuildingAsync(SaveBuildingDTO building)
+    public async Task<BuildingDTO> CreateBuildingAsync(SaveBuildingDTO building)
     {
         var newBuilding = new Building
         {
@@ -69,15 +44,16 @@ public class BuildingService : IBuildingService
         };
         _context.Buildings.Add(newBuilding);
         await _context.SaveChangesAsync();
-        return newBuilding;
+
+        return newBuilding.MapToBuildingDto();
     }
 
-    public async Task UpdateBuildingAsync(long id, SaveBuildingDTO building)
+    public async Task<bool> UpdateBuildingAsync(long id, SaveBuildingDTO building)
     {
         var existingBuilding = await _context.Buildings.FindAsync(id);
         if (existingBuilding == null)
         {
-            return;
+            return false;
         }
 
         existingBuilding.BuildingName = building.BuildingName;
@@ -86,27 +62,30 @@ public class BuildingService : IBuildingService
         existingBuilding.BuildingType = building.BuildingType;
         existingBuilding.BuildingStatus = building.BuildingStatus;
 
-        await _context.SaveChangesAsync();
-        return;
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return false;
+        }
+
+        return true;
     }
 
-    public async Task DeleteBuildingAsync(long id)
+    public async Task<bool> DeleteBuildingAsync(long id)
     {
         var building = await _context.Buildings.FindAsync(id);
         if (building == null)
         {
-            return;
+            return false;
         }
 
         _context.Buildings.Remove(building);
         await _context.SaveChangesAsync();
 
-        return;
-    }
-
-    public async Task<bool> BuildingExists(long id)
-    {
-        return await _context.Buildings.AnyAsync(e => e.Id == id);
+        return true;
     }
 
 }

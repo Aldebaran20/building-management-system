@@ -1,13 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using BuildingManagementSystem.Services;
-using BuildingManagementSystem.DTOs.Buildings;
-using BuildingManagementSystem.Data.Entities;
+using BuildingManagementSystem.DTOs;
 
 namespace BuildingManagementSystem.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+[Produces("application/json")]
 public class BuildingsController : ControllerBase
 {
     private readonly IBuildingService _buildingService;
@@ -19,6 +18,8 @@ public class BuildingsController : ControllerBase
 
     // GET: api/Buildings
     [HttpGet]
+    [EndpointSummary("Get all buildings")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<BuildingDTO>>> GetBuildings()
     {
         var buildings = await _buildingService.GetAllBuildingsAsync();
@@ -27,13 +28,16 @@ public class BuildingsController : ControllerBase
 
     // GET: api/Buildings/5
     [HttpGet("{id}")]
+    [EndpointSummary("Get a building by ID")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<BuildingDTO>> GetBuilding(long id)
     {
         var building = await _buildingService.GetBuildingByIdAsync(id);
 
         if (building == null)
         {
-            return NotFound();
+            return NotFound($"Building with ID {id} does not exist.");
         }
 
         return building;
@@ -41,7 +45,10 @@ public class BuildingsController : ControllerBase
 
     // POST: api/Buildings
     [HttpPost]
-    public async Task<ActionResult<Building>> PostBuilding(SaveBuildingDTO building)
+    [EndpointSummary("Create a new building")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType<ValidationProblemDetails>(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<BuildingDTO>> PostBuilding(SaveBuildingDTO building)
     {
         var newBuilding = await _buildingService.CreateBuildingAsync(building);
 
@@ -50,22 +57,15 @@ public class BuildingsController : ControllerBase
 
     // PUT: api/Buildings/5
     [HttpPut("{id}")]
+    [EndpointSummary("Update an existing building")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> PutBuilding(long id, SaveBuildingDTO building)
     {
-        try
+        var updated = await _buildingService.UpdateBuildingAsync(id, building);
+        if (!updated)
         {
-            await _buildingService.UpdateBuildingAsync(id, building);
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!await _buildingService.BuildingExists(id))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
+            return BadRequest($"Building with ID {id} could not be updated.");
         }
 
         return NoContent();
@@ -73,15 +73,16 @@ public class BuildingsController : ControllerBase
 
     // DELETE: api/Buildings/5
     [HttpDelete("{id}")]
+    [EndpointSummary("Delete a building by id")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> DeleteBuilding(long id)
     {
-        var building = await _buildingService.GetBuildingByIdAsync(id);
-        if (building == null)
+        var deleted = await _buildingService.DeleteBuildingAsync(id);
+        if (!deleted)
         {
-            return NotFound();
+            return NotFound($"Building with ID {id} does not exist.");
         }
-
-        await _buildingService.DeleteBuildingAsync(id);
 
         return NoContent();
     }

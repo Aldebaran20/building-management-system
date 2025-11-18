@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using BuildingManagementSystem.Data;
+using BuildingManagementSystem.Persistence;
 using BuildingManagementSystem.Services;
 
 var builder = WebApplication.CreateBuilder(args);

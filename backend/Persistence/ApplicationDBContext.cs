@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using BuildingManagementSystem.Data.Entities;
+using BuildingManagementSystem.Persistence.Entities;
 
-namespace BuildingManagementSystem.Data;
+namespace BuildingManagementSystem.Persistence;
 
 public class ApplicationDBContext(DbContextOptions<ApplicationDBContext> options) : DbContext(options)
 {
