@@ -1,0 +1,151 @@
+using BMS.Domain.Entities;
+using BMS.Application.DTOs;
+using BMS.Application.Validators;
+
+namespace BMS.UnitTests.DTOs;
+
+public class BuildingValidatorShould
+{
+    [Fact]
+    public void SaveBuildingDTO_ValidInput_ReturnsValid()
+    {
+        // Arrange
+        var buildingDto = new SaveBuildingDTO
+        (
+            BuildingName: "Building A",
+            BuildingAddress: "123 Main St",
+            NumberOfUnits: 10,
+            BuildingType: BuildingType.Residential,
+            BuildingStatus: BuildingStatus.Active
+        );
+
+        // Act
+        var validator = new BuildingValidator();
+        var result = validator.Validate(buildingDto);
+
+        // Assert
+        Assert.True(result.IsValid);
+    }
+
+    [Theory]
+    [InlineData(0)]     // Zero should be invalid
+    [InlineData(1)]     // Too short
+    [InlineData(51)]    // Too long
+    public void SaveBuildingDTO_InvalidBuildingName_ReturnsInvalid(int letterCount)
+    {
+        // Arrange
+        var buildingDto = new SaveBuildingDTO
+        (
+            BuildingName: new string('A', letterCount),
+            BuildingAddress: "123 Main St",
+            NumberOfUnits: 10,
+            BuildingType: BuildingType.Residential,
+            BuildingStatus: BuildingStatus.Active
+        );
+
+        // Act
+        var validator = new BuildingValidator();
+        var result = validator.Validate(buildingDto);
+
+        // Assert
+        Assert.False(result.IsValid);
+    }
+
+    [Theory]
+    [InlineData(0)]     // Zero should be invalid
+    [InlineData(1)]     // Too short
+    [InlineData(101)]   // Too long
+    public void SaveBuildingDTO_InvalidBuildingAddress_ReturnsInvalid(int letterCount)
+    {
+        // Arrange
+        var buildingDto = new SaveBuildingDTO
+        (
+            BuildingName: "Building A",
+            BuildingAddress: new string('A', letterCount),
+            NumberOfUnits: 10,
+            BuildingType: BuildingType.Residential,
+            BuildingStatus: BuildingStatus.Active
+        );
+
+        // Act
+        var validator = new BuildingValidator();
+        var result = validator.Validate(buildingDto);
+
+        // Assert
+        Assert.False(result.IsValid);
+    }
+
+    [Theory]
+    [InlineData(0)]     // Zero should be invalid
+    [InlineData(-1)]    // Negative value
+    [InlineData(10001)] // Above maximum allowed
+    public void SaveBuildingDTO_InvalidNumberOfUnits_ReturnsInvalid(int numberOfUnits)
+    {
+        // Arrange
+        var buildingDto = new SaveBuildingDTO
+        (
+            BuildingName: "Building A",
+            BuildingAddress: "123 Main St",
+            NumberOfUnits: numberOfUnits,
+            BuildingType: BuildingType.Residential,
+            BuildingStatus: BuildingStatus.Active
+        );
+
+        // Act
+        var validator = new BuildingValidator();
+        var result = validator.Validate(buildingDto);
+
+        // Assert
+        Assert.False(result.IsValid);
+    }
+
+    [Theory]
+    [InlineData(0)]     // None (0) should be invalid
+    [InlineData(1)]     // Not a defined enum value
+    [InlineData(-1)]    // Negative value
+    [InlineData(999)]   // Out of range
+    public void SaveBuildingDTO_InvalidBuildingType_ReturnsInvalid(int buildingTypeNum)
+    {
+        // Arrange
+        var buildingDto = new SaveBuildingDTO
+        (
+            BuildingName: "Building A",
+            BuildingAddress: "123 Main St",
+            NumberOfUnits: 1,
+            BuildingType: (BuildingType)buildingTypeNum,
+            BuildingStatus: BuildingStatus.Active
+        );
+
+        // Act
+        var validator = new BuildingValidator();
+        var result = validator.Validate(buildingDto);
+
+        // Assert
+        Assert.False(result.IsValid);
+    }
+
+    [Theory]
+    [InlineData(0)]     // None (0) should be invalid
+    [InlineData(1)]     // Not a defined enum value
+    [InlineData(-1)]    // Negative value
+    [InlineData(999)]   // Out of range
+    public void SaveBuildingDTO_InvalidBuildingStatus_ReturnsInvalid(int buildingStatusNum)
+    {
+        // Arrange
+        var buildingDto = new SaveBuildingDTO
+        (
+            BuildingName: "Building A",
+            BuildingAddress: "123 Main St",
+            NumberOfUnits: 1,
+            BuildingType: BuildingType.Residential,
+            BuildingStatus: (BuildingStatus)buildingStatusNum
+        );
+
+        // Act
+        var validator = new BuildingValidator();
+        var result = validator.Validate(buildingDto);
+
+        // Assert
+        Assert.False(result.IsValid);
+    }
+}
