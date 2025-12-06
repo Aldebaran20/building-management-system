@@ -13,14 +13,16 @@ public sealed class CustomWebApplicationFactory(string connectionString)
     {
         builder.ConfigureServices(services =>
         { 
-            services.Remove(
-                services.SingleOrDefault(
-                    service => 
-                        typeof(DbContextOptions<ApplicationDbContext>) == service.ServiceType
-                )!
+            var descriptor = services.SingleOrDefault(
+                d => d.ServiceType == typeof(DbContextOptions<ApplicationDbContext>)
             );
-            services.AddDbContext<ApplicationDbContext>(
-                (_, option) => option.UseNpgsql(_connectionString)
+            if (descriptor is not null)
+            {
+                services.Remove(descriptor);
+            }
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseNpgsql(_connectionString)
             );
         });
     }

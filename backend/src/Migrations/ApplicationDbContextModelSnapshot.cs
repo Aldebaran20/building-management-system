@@ -22,7 +22,7 @@ namespace BMS.src.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("BuildingManagementSystem.Domain.Entities.Building", b =>
+            modelBuilder.Entity("BMS.Domain.Entities.Building", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()

@@ -7,7 +7,7 @@ namespace BMS.UnitTests.DTOs;
 public class BuildingValidatorShould
 {
     [Fact]
-    public void SaveBuildingDTO_ValidInput_ReturnsValid()
+    public void BuildingValidator_ValidInput_ReturnsValid()
     {
         // Arrange
         var buildingDto = new SaveBuildingDTO
@@ -28,10 +28,10 @@ public class BuildingValidatorShould
     }
 
     [Theory]
-    [InlineData(0)]     // Zero should be invalid
+    [InlineData(0)]     // Empty string should be invalid
     [InlineData(1)]     // Too short
     [InlineData(51)]    // Too long
-    public void SaveBuildingDTO_InvalidBuildingName_ReturnsInvalid(int letterCount)
+    public void BuildingValidator_InvalidBuildingName_ReturnsInvalid(int letterCount)
     {
         // Arrange
         var buildingDto = new SaveBuildingDTO
@@ -52,10 +52,10 @@ public class BuildingValidatorShould
     }
 
     [Theory]
-    [InlineData(0)]     // Zero should be invalid
+    [InlineData(0)]     // Empty string should be invalid
     [InlineData(1)]     // Too short
     [InlineData(101)]   // Too long
-    public void SaveBuildingDTO_InvalidBuildingAddress_ReturnsInvalid(int letterCount)
+    public void BuildingValidator_InvalidBuildingAddress_ReturnsInvalid(int letterCount)
     {
         // Arrange
         var buildingDto = new SaveBuildingDTO
@@ -79,7 +79,7 @@ public class BuildingValidatorShould
     [InlineData(0)]     // Zero should be invalid
     [InlineData(-1)]    // Negative value
     [InlineData(10001)] // Above maximum allowed
-    public void SaveBuildingDTO_InvalidNumberOfUnits_ReturnsInvalid(int numberOfUnits)
+    public void BuildingValidator_InvalidNumberOfUnits_ReturnsInvalid(int numberOfUnits)
     {
         // Arrange
         var buildingDto = new SaveBuildingDTO
@@ -104,7 +104,7 @@ public class BuildingValidatorShould
     [InlineData(1)]     // Not a defined enum value
     [InlineData(-1)]    // Negative value
     [InlineData(999)]   // Out of range
-    public void SaveBuildingDTO_InvalidBuildingType_ReturnsInvalid(int buildingTypeNum)
+    public void BuildingValidator_InvalidBuildingType_ReturnsInvalid(int buildingTypeNum)
     {
         // Arrange
         var buildingDto = new SaveBuildingDTO
@@ -129,7 +129,7 @@ public class BuildingValidatorShould
     [InlineData(1)]     // Not a defined enum value
     [InlineData(-1)]    // Negative value
     [InlineData(999)]   // Out of range
-    public void SaveBuildingDTO_InvalidBuildingStatus_ReturnsInvalid(int buildingStatusNum)
+    public void BuildingValidator_InvalidBuildingStatus_ReturnsInvalid(int buildingStatusNum)
     {
         // Arrange
         var buildingDto = new SaveBuildingDTO

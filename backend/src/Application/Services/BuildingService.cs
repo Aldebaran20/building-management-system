@@ -46,7 +46,7 @@ public class BuildingService : IBuildingService
 
         existingBuilding.UpdateFromDto(building);
 
-        await _repository.UpdateBuildingAsync(id, existingBuilding);
+        await _repository.UpdateBuildingAsync(existingBuilding);
         return true;
     }
 
