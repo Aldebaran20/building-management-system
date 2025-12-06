@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace BuildingManagementSystem.Persistence.Entities;
+namespace BMS.Domain.Entities;
 
 public class Building
 {

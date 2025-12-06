@@ -17,9 +17,20 @@ and building management in one platform.
 ## Quickstart
 To run development server
 1. Copy `appsettings.json` into a new `appsettings.Development.json` file
-2. Start a postgresql server on port *5432* and create a database
-3. Add a PostgreSQL connection string named *PgSQLConnection*
-4. Run the following command:
+2. Start a postgresql server by running `sudo service postgresql start`.
+- Note the port number
+3. Add a PostgreSQL connection string to the new `appsettings.Development.json` file
+```json
+  "ConnectionStrings": {
+    "PgSQLConnection": "Server=localhost;Port={port number};Database=bmsDB;User Id={user id};Password={password};"
+  }
+```
+4. Run the following commands to create the database:
+```bash
+dotnet ef database drop
+dotnet ef database update
+```
+5. Run the following command to start the server:
 ```bash
 dotnet run --launch-profile https
 ```
@@ -27,10 +38,12 @@ dotnet run --launch-profile https
 Swagger documentation URL: `https://localhost:7090/swagger`
 
 ## Database
-Useful commands:
+Basic commands:
 - `sudo service postgresql {start/restart/stop}`
 - `sudo -u postgres {createdb/dropdb} {db name}`
 - `psql -U postgres`
+
+[Migrations](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli)
 
 ## Other Commands
 To generate a controller file:

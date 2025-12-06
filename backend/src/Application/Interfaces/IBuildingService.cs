@@ -1,6 +1,6 @@
-using BuildingManagementSystem.DTOs;
+using BMS.Application.DTOs;
 
-namespace BuildingManagementSystem.Services;
+namespace BMS.Application.Interfaces;
 
 public interface IBuildingService
 {

@@ -1,6 +1,6 @@
-using BuildingManagementSystem.Persistence.Entities;
+using BMS.Domain.Entities;
 
-namespace BuildingManagementSystem.DTOs;
+namespace BMS.Application.DTOs;
 
 public record BuildingDTO(
     long Id,
