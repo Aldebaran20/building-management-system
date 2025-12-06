@@ -32,10 +32,8 @@ public class BuildingRepository : IBuildingRepository
         return building;
     }
 
-    public async Task UpdateBuildingAsync(long id, Building building)
+    public async Task UpdateBuildingAsync(Building building)
     {
-        // Attaches entity to context and marks it as modified
-        _context.Entry(building).State = EntityState.Modified;
         await _context.SaveChangesAsync();
     }
 
