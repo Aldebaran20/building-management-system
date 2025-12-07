@@ -2,7 +2,7 @@ using BMS.Domain.Entities;
 using BMS.Application.DTOs;
 using BMS.Application.Validators;
 
-namespace BMS.UnitTests.DTOs;
+namespace BMS.UnitTests.Validators;
 
 public class BuildingValidatorShould
 {
