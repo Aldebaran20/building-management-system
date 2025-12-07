@@ -64,7 +64,7 @@ public class BuildingService_UpdateBuildingShould
         Assert.Equal(expected.DateAdded, existing.DateAdded);
 
         await mockRepository.Received(1)
-            .UpdateBuildingAsync(10, existing);
+            .UpdateBuildingAsync(existing);
     }
 
     [Fact]
@@ -92,6 +92,6 @@ public class BuildingService_UpdateBuildingShould
         Assert.False(result);
 
         await mockRepository.Received(0)
-            .UpdateBuildingAsync(Arg.Any<long>(), Arg.Any<Building>());
+            .UpdateBuildingAsync(Arg.Any<Building>());
     }
 }
