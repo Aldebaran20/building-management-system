@@ -23,15 +23,19 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt =>
 builder.Services.AddScoped<IBuildingService, BuildingService>();
 builder.Services.AddScoped<IBuildingRepository, BuildingRepository>();
 builder.Services.AddScoped<IValidator<SaveBuildingDTO>, BuildingValidator>();
-builder.Services.AddCors(options =>
+
+if (builder.Environment.IsDevelopment())
 {
-    options.AddPolicy("AllowDevelopmentFrontend", policy =>           
+    builder.Services.AddCors(options =>
     {
-        policy.WithOrigins("http://localhost:5173")
-            .WithMethods("GET", "POST", "PUT", "DELETE")
-            .WithHeaders("Content-Type");
+        options.AddPolicy("AllowDevelopmentFrontend", policy =>           
+        {
+            policy.WithOrigins("http://localhost:5173")
+                .WithMethods("GET", "POST", "PUT", "DELETE")
+                .WithHeaders("Content-Type");
+        });
     });
-});
+}
 
 var app = builder.Build();
 
@@ -50,13 +54,13 @@ if (app.Environment.IsDevelopment())
         var context = services.GetRequiredService<ApplicationDbContext>();
         await context.Database.MigrateAsync();
     }
+
+    app.UseCors("AllowDevelopmentFrontend");
 }
 
 app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
-
-app.UseCors("AllowDevelopmentFrontend");
 
 app.UseAuthorization();
 
