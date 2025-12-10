@@ -23,6 +23,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt =>
 builder.Services.AddScoped<IBuildingService, BuildingService>();
 builder.Services.AddScoped<IBuildingRepository, BuildingRepository>();
 builder.Services.AddScoped<IValidator<SaveBuildingDTO>, BuildingValidator>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowDevelopmentFrontend", policy =>           
+    {
+        policy.WithOrigins("http://localhost:5173")
+            .WithMethods("GET", "POST", "PUT", "DELETE")
+            .WithHeaders("Content-Type");
+    });
+});
 
 var app = builder.Build();
 
@@ -46,6 +55,8 @@ if (app.Environment.IsDevelopment())
 app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowDevelopmentFrontend");
 
 app.UseAuthorization();
 
