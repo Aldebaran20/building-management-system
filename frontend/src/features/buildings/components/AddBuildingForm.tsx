@@ -1,3 +1,6 @@
+import type { Building } from "@/types"
+import { createBuilding } from "../api/create_building"
+
 export function AddBuildingForm({ setIsBuildingFormVisible, fetchBuildings }: {
   setIsBuildingFormVisible: React.Dispatch<React.SetStateAction<boolean>>, 
   fetchBuildings: () => void 
@@ -7,23 +10,15 @@ export function AddBuildingForm({ setIsBuildingFormVisible, fetchBuildings }: {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
 
-    const building = {
-      buildingName: formData.get('buildingName'),
-      buildingAddress: formData.get('buildingAddress'),
-      numberOfUnits: formData.get('numberOfUnits'),
-      buildingType: formData.get('buildingType'),
-      buildingStatus: formData.get('buildingStatus'),
-    }
+    const building : Omit<Building, 'id'> = {
+      buildingName: formData.get('buildingName') as string,
+      buildingAddress: formData.get('buildingAddress') as string,
+      numberOfUnits: Number(formData.get('numberOfUnits')),
+      buildingType: formData.get('buildingType') as string,
+      buildingStatus: formData.get('buildingStatus') as string,
+    } 
 
-    fetch('https://localhost:7090/api/Buildings', {
-      method: 'POST',
-      headers: {
-        'accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(building),
-    })
-      .then((response) => response.json())
+    createBuilding(building)
       .then((data) => {
         console.log('Success:', data)
         setIsBuildingFormVisible(false)
