@@ -58,9 +58,12 @@ if (app.Environment.IsDevelopment())
     app.UseCors("AllowDevelopmentFrontend");
 }
 
-app.UseExceptionHandler();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
-app.UseHttpsRedirection();
+app.UseExceptionHandler();
 
 app.UseAuthorization();
 
