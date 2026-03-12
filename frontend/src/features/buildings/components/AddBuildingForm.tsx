@@ -1,9 +1,11 @@
 import type { SaveBuilding, BuildingType, BuildingStatus } from "@/types"
+import { BUILDING_TYPES, BUILDING_STATUSES } from "@/types"
 import { createBuilding } from "../api/create_building"
+import { SelectInput } from "@/components/SelectInput"
+import { TextInput } from "@/components/TextInput"
 
-export function AddBuildingForm({ onSuccess, onCancel }: {
+export function AddBuildingForm({ onSuccess }: {
   onSuccess: () => void
-  onCancel: () => void
 }) {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -11,8 +13,8 @@ export function AddBuildingForm({ onSuccess, onCancel }: {
     const formData = new FormData(event.currentTarget)
 
     const building : SaveBuilding = {
-      buildingName: formData.get('buildingName') as string,
-      buildingAddress: formData.get('buildingAddress') as string,
+      buildingName: formData.get('buildingName') as string ?? '',
+      buildingAddress: formData.get('buildingAddress') as string ?? '',
       numberOfUnits: Number(formData.get('numberOfUnits')),
       buildingType: formData.get('buildingType') as BuildingType,
       buildingStatus: formData.get('buildingStatus') as BuildingStatus,
@@ -28,54 +30,19 @@ export function AddBuildingForm({ onSuccess, onCancel }: {
   }
 
   return (
-    <form className="mt-20" onSubmit={handleSubmit}>
-      <input 
-        required
-        type="text"
-        name="buildingName"
-        placeholder="Building Name"
-        className="mb-4 p-2 border border-gray-300 rounded w-full"
-      />
-      <input 
-        required
-        type="text"
-        name="buildingAddress"
-        placeholder="Building Address"
-        className="mb-4 p-2 border border-gray-300 rounded w-full"
-      />
-      <input
-        required
-        type="number"
-        name="numberOfUnits"
-        placeholder="Number of Units"
-        className="mb-4 p-2 border border-gray-300 rounded w-full"
-      />
-      <input 
-        required
-        type="text"
-        name="buildingType"
-        placeholder="Building Type"
-        className="mb-4 p-2 border border-gray-300 rounded w-full"
-      />
-      <input 
-        required
-        type="text"
-        name="buildingStatus"
-        placeholder="Building Status"
-        className="mb-4 p-2 border border-gray-300 rounded w-full"
-      />
-      <button
-        type="button"
-        onClick={onCancel}
-        className="mr-4 p-2 bg-gray-300 rounded"
-      >
-        Cancel
-      </button>
+    <form className="flex flex-col gap-8 mt-20" onSubmit={handleSubmit}>
+      <TextInput label="Building Name" type="text" name="buildingName"/>
+      <TextInput label="Building Address"  type="text" name="buildingAddress"/>
+      <div className="grid grid-cols-3 gap-4">
+        <TextInput label="Number of Units" type="number" name="numberOfUnits"/>
+        <SelectInput label="Building Type" name="buildingType" options={BUILDING_TYPES}/>
+        <SelectInput  label="Building Status" name="buildingStatus" options={BUILDING_STATUSES}/>
+      </div>
       <button
         type="submit"
-        className="p-2 bg-blue-500 text-white rounded"
+        className="self-end px-6 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-md transition-colors duration-150 cursor-pointer"
       >
-        Submit
+        Add Building
       </button>
     </form>
   )
