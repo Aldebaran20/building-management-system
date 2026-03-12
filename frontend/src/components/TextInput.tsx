@@ -5,8 +5,9 @@ export function TextInput({ label, type, name } : {
 }) {
   return (
     <div>
-      <div className="text-sm text-zinc-500 mb-2">{label}</div>
+      <label htmlFor={name} className="text-sm text-zinc-500 mb-2">{label}</label>
       <input 
+        id={name}
         required
         type={type}
         name={name}

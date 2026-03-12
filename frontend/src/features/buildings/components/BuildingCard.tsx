@@ -1,6 +1,5 @@
 import type { Building } from '@/types'
 import { formatPascalCase } from '@/utils/format-pascal-case'
-import placeholderImage from '@/assets/placeholder.jpg'
 
 export function BuildingCard({
   buildingName,
@@ -13,11 +12,10 @@ export function BuildingCard({
 
   return (
     <div className="flex border border-zinc-800 rounded-md p-4 h-40 items-center hover:shadow-2xl mb-3 gap-4 bg-zinc-900 hover:bg-zinc-800 transition-colors duration-150">
-      <img 
-        className="h-full w-auto flex-none object-cover rounded-md" 
-        src={placeholderImage}
-        alt={buildingName}
-      />
+      <div 
+        className="h-32 w-20 flex-none bg-zinc-500 rounded-md"
+      >
+      </div>
       <div className="flex-3">
         <div>{buildingName}</div>
         <div className="text-sm text-zinc-400">{buildingAddress}</div>

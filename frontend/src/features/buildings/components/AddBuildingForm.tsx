@@ -14,8 +14,8 @@ export function AddBuildingForm({ onSuccess }: {
     const formData = new FormData(event.currentTarget)
 
     const building : SaveBuilding = {
-      buildingName: formData.get('buildingName') as string ?? '',
-      buildingAddress: formData.get('buildingAddress') as string ?? '',
+      buildingName: String(formData.get('buildingName') ?? ''),
+      buildingAddress: String(formData.get('buildingAddress') ?? ''),
       numberOfUnits: Number(formData.get('numberOfUnits')),
       buildingType: formData.get('buildingType') as BuildingType,
       buildingStatus: formData.get('buildingStatus') as BuildingStatus,
