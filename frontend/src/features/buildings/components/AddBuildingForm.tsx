@@ -1,28 +1,26 @@
-import type { Building } from "@/types"
+import type { SaveBuilding, BuildingType, BuildingStatus } from "@/types"
 import { createBuilding } from "../api/create_building"
 
-export function AddBuildingForm({ setIsBuildingFormVisible, fetchBuildings }: {
-  setIsBuildingFormVisible: React.Dispatch<React.SetStateAction<boolean>>, 
-  fetchBuildings: () => void 
+export function AddBuildingForm({ onSuccess, onCancel }: {
+  onSuccess: () => void
+  onCancel: () => void
 }) {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
 
-    const building : Omit<Building, 'id'> = {
+    const building : SaveBuilding = {
       buildingName: formData.get('buildingName') as string,
       buildingAddress: formData.get('buildingAddress') as string,
       numberOfUnits: Number(formData.get('numberOfUnits')),
-      buildingType: formData.get('buildingType') as string,
-      buildingStatus: formData.get('buildingStatus') as string,
+      buildingType: formData.get('buildingType') as BuildingType,
+      buildingStatus: formData.get('buildingStatus') as BuildingStatus,
     } 
 
     createBuilding(building)
-      .then((data) => {
-        console.log('Success:', data)
-        setIsBuildingFormVisible(false)
-        fetchBuildings()
+      .then(() => {
+        onSuccess()
       })
       .catch((error) => {
         console.error("Error adding building:", error)
@@ -30,7 +28,7 @@ export function AddBuildingForm({ setIsBuildingFormVisible, fetchBuildings }: {
   }
 
   return (
-    <form className="mt-20" onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSubmit(e)}>
+    <form className="mt-20" onSubmit={handleSubmit}>
       <input 
         required
         type="text"
@@ -68,7 +66,7 @@ export function AddBuildingForm({ setIsBuildingFormVisible, fetchBuildings }: {
       />
       <button
         type="button"
-        onClick={() => setIsBuildingFormVisible(false)}
+        onClick={onCancel}
         className="mr-4 p-2 bg-gray-300 rounded"
       >
         Cancel
