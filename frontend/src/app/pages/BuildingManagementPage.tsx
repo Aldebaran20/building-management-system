@@ -3,6 +3,7 @@ import type { Building } from '@/types'
 import { getBuildings } from '@/features/buildings/api/get_buildings'
 import { AddBuildingForm } from '@/features/buildings/components/AddBuildingForm'
 import { BuildingList } from '@/features/buildings/components/BuildingList'
+import { Button } from '@/components/Button'
 import '../App.css'
 
 export function BuildingManagementPage() {
@@ -30,12 +31,9 @@ export function BuildingManagementPage() {
               <h1 className="text-2xl font-semibold mb-1">Buildings</h1>
               <p className="text-sm text-zinc-400">Manage your buildings here</p>
             </div>
-            <button
-              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-md transition-colors duration-150 cursor-pointer"
-              onClick={() => setIsBuildingFormVisible(true)}
-            >
+            <Button onClick={() => setIsBuildingFormVisible(true)}>
               Add Building
-            </button>
+            </Button>
           </>
         ) : (
           <>
@@ -43,12 +41,9 @@ export function BuildingManagementPage() {
               <h1 className="text-2xl font-semibold mb-1">New Building</h1>
               <p className="text-sm text-zinc-400">Add a new building</p>
             </div>
-            <button
-              className="px-4 py-2 bg-red-800 hover:bg-red-700 text-white text-sm font-medium rounded-md transition-colors duration-150 cursor-pointer"
-              onClick={() => setIsBuildingFormVisible(false)}
-            >
+            <Button variant="danger" onClick={() => setIsBuildingFormVisible(false)}>
               Cancel
-            </button>
+            </Button>
           </>
         )}
       </div>
