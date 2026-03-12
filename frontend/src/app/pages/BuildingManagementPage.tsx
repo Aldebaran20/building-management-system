@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
-import type { Building } from '../../types'
-import { getBuildings } from '../../features/buildings/api/get_buildings'
-import { AddBuildingForm } from '../../features/buildings/components/AddBuildingForm'
-import { BuildingList } from '../../features/buildings/components/BuildingList'
+import type { Building } from '@/types'
+import { getBuildings } from '@/features/buildings/api/get_buildings'
+import { AddBuildingForm } from '@/features/buildings/components/AddBuildingForm'
+import { BuildingList } from '@/features/buildings/components/BuildingList'
 import '../App.css'
 
 export function BuildingManagementPage() {
@@ -24,24 +24,38 @@ export function BuildingManagementPage() {
   return (
     <div className="bg-zinc-950 text-white">
       <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-semibold mb-1">Buildings</h1>
-          <p className="text-sm text-zinc-400">Manage your buildings here</p>
-        </div>
-        {!isBuildingFormVisible && (
-          <button
-            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-md transition-colors duration-150 cursor-pointer"
-            onClick={() => setIsBuildingFormVisible(true)}
-          >
-            Add Building
-          </button>
+        {!isBuildingFormVisible ? (
+          <>
+            <div>
+              <h1 className="text-2xl font-semibold mb-1">Buildings</h1>
+              <p className="text-sm text-zinc-400">Manage your buildings here</p>
+            </div>
+            <button
+              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-md transition-colors duration-150 cursor-pointer"
+              onClick={() => setIsBuildingFormVisible(true)}
+            >
+              Add Building
+            </button>
+          </>
+        ) : (
+          <>
+            <div>
+              <h1 className="text-2xl font-semibold mb-1">New Building</h1>
+              <p className="text-sm text-zinc-400">Add a new building</p>
+            </div>
+            <button
+              className="px-4 py-2 bg-red-800 hover:bg-red-700 text-white text-sm font-medium rounded-md transition-colors duration-150 cursor-pointer"
+              onClick={() => setIsBuildingFormVisible(false)}
+            >
+              Cancel
+            </button>
+          </>
         )}
       </div>
 
       {isBuildingFormVisible ? (
         <AddBuildingForm 
           onSuccess={() => { setIsBuildingFormVisible(false); fetchBuildings() }}
-          onCancel={() => setIsBuildingFormVisible(false) }
         />
       ) : (
         <BuildingList buildings={buildings} />
