@@ -3,6 +3,7 @@ import { BUILDING_TYPES, BUILDING_STATUSES } from "@/types"
 import { createBuilding } from "../api/create_building"
 import { SelectInput } from "@/components/SelectInput"
 import { TextInput } from "@/components/TextInput"
+import { Button } from "@/components/Button"
 
 export function AddBuildingForm({ onSuccess }: {
   onSuccess: () => void
@@ -38,12 +39,7 @@ export function AddBuildingForm({ onSuccess }: {
         <SelectInput label="Building Type" name="buildingType" options={BUILDING_TYPES}/>
         <SelectInput  label="Building Status" name="buildingStatus" options={BUILDING_STATUSES}/>
       </div>
-      <button
-        type="submit"
-        className="self-end px-6 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium rounded-md transition-colors duration-150 cursor-pointer"
-      >
-        Add Building
-      </button>
+      <Button type="submit" className="self-end">Add Building</Button>
     </form>
   )
 }
