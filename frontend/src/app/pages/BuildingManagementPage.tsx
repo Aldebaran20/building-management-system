@@ -39,7 +39,10 @@ export function BuildingManagementPage() {
       </div>
 
       {isBuildingFormVisible ? (
-        <AddBuildingForm setIsBuildingFormVisible={setIsBuildingFormVisible} fetchBuildings={fetchBuildings} />
+        <AddBuildingForm 
+          onSuccess={() => { setIsBuildingFormVisible(false); fetchBuildings() }}
+          onCancel={() => setIsBuildingFormVisible(false) }
+        />
       ) : (
         <BuildingList buildings={buildings} />
       )}
