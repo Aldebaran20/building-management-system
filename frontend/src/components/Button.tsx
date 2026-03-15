@@ -1,4 +1,4 @@
-type ButtonVariant = 'primary' | 'danger'
+type ButtonVariant = 'primary' | 'danger' | 'ghost'
 
 export function Button({ children, variant = 'primary', type = 'button', className = '', onClick }: {
   children: React.ReactNode,
@@ -10,6 +10,7 @@ export function Button({ children, variant = 'primary', type = 'button', classNa
   const variants: Record<ButtonVariant, string> = {
     primary: 'bg-indigo-600 hover:bg-indigo-500',
     danger: 'bg-red-700 hover:bg-red-600',
+    ghost: 'bg-zinc-700 hover:bg-zinc-600'
   }
 
   return (

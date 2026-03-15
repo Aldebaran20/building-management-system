@@ -5,7 +5,7 @@ import { SelectInput } from "@/components/SelectInput"
 import { TextInput } from "@/components/TextInput"
 import { Button } from "@/components/Button"
 
-export function AddBuildingForm({ onSuccess }: {
+export function BuildingForm({ onSuccess }: {
   onSuccess: () => void
 }) {
 
