@@ -5,9 +5,10 @@ import { ActionsDropdown } from '@/components/ActionsDropdown'
 import { ConfirmDeleteModal } from '@/components/ConfirmDeleteModal'
 import { deleteBuilding } from '../api/delete_building'
 
-export function BuildingCard({ building, onDelete }: {
+export function BuildingCard({ building, onDelete, onEditRequest }: {
   building: Building
   onDelete: () => void
+  onEditRequest: (building: Building) => void
 }) {
   const { buildingName, buildingAddress, numberOfUnits, buildingType, buildingStatus, dateAdded } = building
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
@@ -59,7 +60,7 @@ export function BuildingCard({ building, onDelete }: {
         {isDropdownOpen && (
           <ActionsDropdown 
             onMouseLeave={() => setIsDropdownOpen(false)}
-            onEdit={() => { }}
+            onEditRequest={() => onEditRequest(building)}
             onDelete={() => setIsDeleteModalOpen(true)}
           />
         )}
