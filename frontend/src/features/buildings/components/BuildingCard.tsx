@@ -1,14 +1,27 @@
 import type { Building } from '@/types'
 import { formatPascalCase } from '@/utils/format-pascal-case'
+import { useState } from 'react'
+import { ActionsDropdown } from '@/components/ActionsDropdown'
+import { ConfirmDeleteModal } from '@/components/ConfirmDeleteModal'
+import { deleteBuilding } from '../api/delete_building'
 
-export function BuildingCard({
-  buildingName,
-  buildingAddress,
-  numberOfUnits,
-  buildingType,
-  buildingStatus,
-  dateAdded 
-}: Building) {
+export function BuildingCard({ building, onDelete }: {
+  building: Building
+  onDelete: () => void
+}) {
+  const { buildingName, buildingAddress, numberOfUnits, buildingType, buildingStatus, dateAdded } = building
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+
+  const handleDelete = () => {
+    deleteBuilding(building.id)
+      .then(() => {
+        onDelete()
+      })
+      .catch((error) => {
+        console.error("Error deleting building:", error)
+      })
+  }
 
   return (
     <div className="flex border border-zinc-800 rounded-md p-4 h-40 items-center hover:shadow-2xl mb-3 gap-4 bg-zinc-900 hover:bg-zinc-800 transition-colors duration-150">
@@ -36,7 +49,28 @@ export function BuildingCard({
         <div className="text-xs text-zinc-500 mb-1">Date Added</div>
         <div className="">{dateAdded}</div>
       </div>
-      <button className="flex-none w-8 text-center hover:cursor-pointer">...</button>
+      <div className="relative">
+        <button 
+          className="flex-none w-8 text-center cursor-pointer" 
+          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+        >
+          ...
+        </button>
+        {isDropdownOpen && (
+          <ActionsDropdown 
+            onMouseLeave={() => setIsDropdownOpen(false)}
+            onEdit={() => { }}
+            onDelete={() => setIsDeleteModalOpen(true)}
+          />
+        )}
+      </div>
+      {isDeleteModalOpen && (
+        <ConfirmDeleteModal 
+          onConfirm={() => {setIsDeleteModalOpen(false); handleDelete()}} 
+          onCancel={() => setIsDeleteModalOpen(false)} 
+          entityName={buildingName}
+        />
+      )}
     </div>
   )
 }

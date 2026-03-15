@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { Building } from '@/types'
 import { getBuildings } from '@/features/buildings/api/get_buildings'
-import { AddBuildingForm } from '@/features/buildings/components/AddBuildingForm'
+import { BuildingForm } from '@/features/buildings/components/BuildingForm'
 import { BuildingList } from '@/features/buildings/components/BuildingList'
 import { Button } from '@/components/Button'
 import '../App.css'
@@ -49,11 +49,11 @@ export function BuildingManagementPage() {
       </div>
 
       {isBuildingFormVisible ? (
-        <AddBuildingForm 
+        <BuildingForm 
           onSuccess={() => { setIsBuildingFormVisible(false); fetchBuildings() }}
         />
       ) : (
-        <BuildingList buildings={buildings} />
+        <BuildingList buildings={buildings} onDelete={() => fetchBuildings()} />
       )}
     </div>
   )
