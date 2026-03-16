@@ -5,6 +5,7 @@ import { updateBuilding } from "../api/update_building"
 import { SelectInput } from "@/components/SelectInput"
 import { TextInput } from "@/components/TextInput"
 import { Button } from "@/components/Button"
+import type { FormEvent } from "react"
 
 export function BuildingForm({ onSuccess, building }: {
   onSuccess: () => void
@@ -19,7 +20,7 @@ export function BuildingForm({ onSuccess, building }: {
     buildingStatus = BUILDING_STATUSES[0],
   } = building ?? {}
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
 
