@@ -1,7 +1,9 @@
+import type { ReactNode } from 'react'
+
 type ButtonVariant = 'primary' | 'danger' | 'ghost'
 
 export function Button({ children, variant = 'primary', type = 'button', className = '', onClick }: {
-  children: React.ReactNode,
+  children: ReactNode,
   variant?: ButtonVariant,
   type?: 'button' | 'submit'
   className?: string

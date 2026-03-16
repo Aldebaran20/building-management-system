@@ -54,6 +54,7 @@ export function BuildingCard({ building, onDelete, onEditRequest }: {
         <button 
           className="flex-none w-8 text-center cursor-pointer" 
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          aria-label={`Open actions menu for ${buildingName}`}
         >
           ...
         </button>
