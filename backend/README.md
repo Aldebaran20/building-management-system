@@ -54,36 +54,52 @@ Replace `{username}` with your PostgreSQL username (often postgres).
 4. Add a PostgreSQL connection string
 Edit `appsettings.Development.json`
 ```json
-  "ConnectionStrings": {
-    "PgSQLConnection": "Server=localhost;Port=5432;Database=bmsDB;User Id={username};Password={password};"
-  }
+"ConnectionStrings": {
+ "PgSQLConnection": "Server=localhost;Port=5432;Database=bmsDB;User Id={username};Password={password};"
+}
 ```
 Replace `{username}` and `{password}` with your PostgreSQL credentials
 
-5. Install EF Core Tools (if not already installed)
+5. Add JWT Configuration
+Edit `appsettings.Development.json` and add:
+```json
+"Jwt": {
+  "Key": "your-secret-key-minimum-32-characters-long"
+}
+```
+Generate a secure key with:
+```bash
+openssl rand -base64 32
+```
+
+6. Install EF Core Tools (if not already installed)
 ```bash
 dotnet tool install --global dotnet-ef
 ``` 
 
-6. Apply Entity framework migrations
+7. Apply Entity framework migrations
 ```bash
 dotnet ef database update
 ```
 This will create the tables in the created database (bmsDB) 
 according to the schema defined in `Domain/Entities`
 
-7. Run the development server
+8. Run the development server
 ```bash
-dotnet run --launch-profile https
+dotnet run --launch-profile http
 ```
 Swagger UI available at:
-https://localhost:7090/swagger
+http://localhost:5090/swagger
+
+A default admin user is seeded in development:
+- Email: `Admin`
+- Password: `password123`
 
 
 ## Database Commands
-Start/stop PostgreSQL service:
+Start/restart/stop PostgreSQL service:
 ```bash
-sudo service postgresql start/restart/stop
+sudo service postgresql start
 sudo service postgresql restart
 sudo service postgresql stop
 ```
@@ -99,8 +115,18 @@ Interactive PostgreSQL terminal:
 psql -U {username}
 ```
 
-EF Core Migrations Guide:
-https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli
+## Migrations
+[EF Core Migrations Guide](https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli)
+
+When a new table has been added to the database or an existing table was updated,
+(`ApplicationDbContext` was updated), run:
+```bash
+dotnet ef migrations add {Descriptive Name}
+```
+Then apply the migration:
+```bash
+dotnet ef database update
+```
 
 
 ## Running Tests

@@ -2,10 +2,12 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using BMS.Application.Interfaces;
 using BMS.Application.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BMS.Web.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/[controller]")]
 [Produces("application/json")]
 public class BuildingsController : ControllerBase
