@@ -18,25 +18,18 @@ public static class BuildingMappingsExtensions
         );
     }
 
-    public static Building MapToBuildingEntity(this SaveBuildingDTO dto, DateOnly dateAdded)
+    public static Building MapToBuildingEntity(this SaveBuildingDTO dto,long userId)
     {
         return new Building
         {
+            UserId = userId,
             BuildingName = dto.BuildingName,
             BuildingAddress = dto.BuildingAddress,
             NumberOfUnits = dto.NumberOfUnits,
             BuildingType = dto.BuildingType,
             BuildingStatus = dto.BuildingStatus,
-            DateAdded = dateAdded
+            DateAdded = DateOnly.FromDateTime(DateTime.UtcNow)
         };
     }
 
-    public static void UpdateFromDto(this Building building, SaveBuildingDTO dto)
-    {
-        building.BuildingName = dto.BuildingName;
-        building.BuildingAddress = dto.BuildingAddress;
-        building.NumberOfUnits = dto.NumberOfUnits;
-        building.BuildingType = dto.BuildingType;
-        building.BuildingStatus = dto.BuildingStatus;
-    }
 }

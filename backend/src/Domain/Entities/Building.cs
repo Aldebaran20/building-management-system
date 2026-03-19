@@ -5,6 +5,8 @@ namespace BMS.Domain.Entities;
 public class Building
 {
     public long Id { get; set; }
+    public long UserId { get; set; } // Foreign key to User
+    public User User { get; set; } = null!; // Reference navigation to principal
     public required string BuildingName { get; set; }
     public required string BuildingAddress { get; set; }
     public int NumberOfUnits { get; set; }
