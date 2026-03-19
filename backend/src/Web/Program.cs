@@ -6,7 +6,11 @@ using BMS.Application.Interfaces;
 using BMS.Application.Services;
 using BMS.Application.Exceptions;
 using BMS.Application.Validators;
+using BMS.Application.Options;
 using BMS.Application.DTOs;
+using BMS.Domain.Entities;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +19,6 @@ builder.Services.AddControllers()
     {
         options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
     });
-builder.Services.AddOpenApi();
 builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddDbContext<ApplicationDbContext>(opt =>
@@ -23,6 +26,29 @@ builder.Services.AddDbContext<ApplicationDbContext>(opt =>
 builder.Services.AddScoped<IBuildingService, BuildingService>();
 builder.Services.AddScoped<IBuildingRepository, BuildingRepository>();
 builder.Services.AddScoped<IValidator<SaveBuildingDTO>, BuildingValidator>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddAuthorization();
+builder.Services.Configure<JwtOptions>(
+    builder.Configuration.GetSection(JwtOptions.Jwt)
+);
+builder.Services.AddAuthentication("Bearer").AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)
+        ),
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ValidateLifetime = true,
+    };
+});
+builder.Services.AddOpenApi(options =>
+{
+    options.AddDocumentTransformer<BearerSecuritySchemeTransformer>();
+});
 
 if (builder.Environment.IsDevelopment())
 {
@@ -53,6 +79,17 @@ if (app.Environment.IsDevelopment())
         var services = scope.ServiceProvider;
         var context = services.GetRequiredService<ApplicationDbContext>();
         await context.Database.MigrateAsync();
+
+        if (!await context.Users.AnyAsync())
+        {
+            var user = new User
+            {
+                Email = "Admin",
+                HashedPassword = BCrypt.Net.BCrypt.HashPassword("password123")
+            };
+            context.Users.Add(user);
+            await context.SaveChangesAsync();
+        }
     }
 
     app.UseCors("AllowDevelopmentFrontend");
@@ -65,6 +102,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHttpsRedirection();
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

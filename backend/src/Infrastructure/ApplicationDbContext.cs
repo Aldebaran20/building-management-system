@@ -6,6 +6,7 @@ namespace BMS.Infrastructure;
 public class ApplicationDbContext : DbContext
 {
     public DbSet<Building> Buildings { get; set; }
+    public DbSet<User> Users { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
