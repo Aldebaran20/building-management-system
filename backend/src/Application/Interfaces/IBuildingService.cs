@@ -4,9 +4,9 @@ namespace BMS.Application.Interfaces;
 
 public interface IBuildingService
 {
-    public Task<IEnumerable<BuildingDTO>> GetAllBuildingsAsync();
-    public Task<BuildingDTO?> GetBuildingByIdAsync(long id);
-    public Task<BuildingDTO> CreateBuildingAsync(SaveBuildingDTO building);
-    public Task<bool> UpdateBuildingAsync(long id, SaveBuildingDTO building);
-    public Task<bool> DeleteBuildingAsync(long id);
+    public Task<IEnumerable<BuildingDTO>> GetAllBuildingsAsync(long userId);
+    public Task<BuildingDTO?> GetBuildingByIdAsync(long buildingId, long userId);
+    public Task<BuildingDTO> CreateBuildingAsync(SaveBuildingDTO buildingDto, long userId);
+    public Task<bool> UpdateBuildingAsync(long buildingId, SaveBuildingDTO buildingDto, long userId);
+    public Task<bool> DeleteBuildingAsync(long buildingId, long userId);
 }

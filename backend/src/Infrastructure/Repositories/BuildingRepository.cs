@@ -15,14 +15,16 @@ public class BuildingRepository : IBuildingRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Building>> GetAllBuildingsAsync()
+    public async Task<IEnumerable<Building>> GetAllBuildingsAsync(long userId)
     {
-        return await _context.Buildings.ToListAsync();
+        return await _context.Buildings
+            .Where(b => b.UserId == userId).ToListAsync();
     }
 
-    public async Task<Building?> GetBuildingByIdAsync(long id)
+    public async Task<Building?> GetBuildingByIdAsync(long buildingId, long userId)
     {
-        return await _context.Buildings.FindAsync(id);
+        return await _context.Buildings
+            .FirstOrDefaultAsync(b => b.Id == buildingId && b.UserId == userId);
     }
 
     public async Task<Building> CreateBuildingAsync(Building building)
@@ -34,13 +36,12 @@ public class BuildingRepository : IBuildingRepository
 
     public async Task UpdateBuildingAsync(Building building)
     {
+        _context.Entry(building).State = EntityState.Modified;
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteBuildingAsync(long id)
+    public async Task DeleteBuildingAsync(Building building)
     {
-        var building = await _context.Buildings.FindAsync(id);
-        if (building == null) return;
         _context.Buildings.Remove(building);
         await _context.SaveChangesAsync();
     }
