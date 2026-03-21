@@ -11,6 +11,7 @@ public sealed class Buildings_GetShould(PostgresFixture fixture)
     {
         // Arrange
         await ResetDatabaseAsync();
+        await AuthenticateAsync();
 
         var postResponse1 = await _httpClient.PostAsJsonAsync("/api/buildings", new
         {
@@ -46,5 +47,16 @@ public sealed class Buildings_GetShould(PostgresFixture fixture)
 
         Assert.NotNull(buildings);
         Assert.Equal(2, buildings.Count);
+    }
+
+    [Fact]
+    public async Task GetBuildings_NoToken_ReturnsUnauthorized()
+    {
+        // Don't call AuthenticateAsync
+        await ResetDatabaseAsync();
+        
+        var getResponse = await _httpClient.GetAsync("/api/buildings");
+        
+        Assert.Equal(System.Net.HttpStatusCode.Unauthorized, getResponse.StatusCode);
     }
 }

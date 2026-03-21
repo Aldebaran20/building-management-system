@@ -11,6 +11,7 @@ public sealed class Buildings_DeleteShould(PostgresFixture fixture)
     {
         // Arrange
         await ResetDatabaseAsync();
+        await AuthenticateAsync();
 
         var postResponse = await _httpClient.PostAsJsonAsync("/api/buildings", new
         {
@@ -40,6 +41,7 @@ public sealed class Buildings_DeleteShould(PostgresFixture fixture)
     {
         // Arrange
         await ResetDatabaseAsync();
+        await AuthenticateAsync();
 
         // Act
         var deleteResponse = await _httpClient.DeleteAsync("/api/buildings/9999");

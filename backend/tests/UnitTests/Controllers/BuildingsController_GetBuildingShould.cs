@@ -26,9 +26,9 @@ public class BuildingsController_GetBuildingShould
         );
 
         var mockService = Substitute.For<IBuildingService>();
-        mockService.GetBuildingByIdAsync(10).Returns(expectedDto);
+        mockService.GetBuildingByIdAsync(10, 1).Returns(expectedDto);
         var mockValidator = Substitute.For<IValidator<SaveBuildingDTO>>();
-        var buildingsController = new BuildingsController(mockService, mockValidator);
+        var buildingsController = BuildingsControllerFactory.Create(mockService, mockValidator, userId: 1);
 
         // Act
         var result = await buildingsController.GetBuilding(10);
@@ -38,7 +38,7 @@ public class BuildingsController_GetBuildingShould
         var returnedDto = Assert.IsType<BuildingDTO>(okResult.Value, exactMatch: false);
         Assert.Same(expectedDto, returnedDto);
 
-        await mockService.Received(1).GetBuildingByIdAsync(10);
+        await mockService.Received(1).GetBuildingByIdAsync(10, 1);
     }
 
     [Fact]
@@ -46,9 +46,9 @@ public class BuildingsController_GetBuildingShould
     {
         // Arrange
         var mockService = Substitute.For<IBuildingService>();
-        mockService.GetBuildingByIdAsync(10).Returns((BuildingDTO?)null);
+        mockService.GetBuildingByIdAsync(10, 1).Returns((BuildingDTO?)null);
         var mockValidator = Substitute.For<IValidator<SaveBuildingDTO>>();
-        var buildingsController = new BuildingsController(mockService, mockValidator);
+        var buildingsController = BuildingsControllerFactory.Create(mockService, mockValidator, userId: 1);
 
         // Act
         var result = await buildingsController.GetBuilding(10);
@@ -56,6 +56,34 @@ public class BuildingsController_GetBuildingShould
         // Assert
         Assert.IsType<NotFoundObjectResult>(result.Result);
 
-        await mockService.Received(1).GetBuildingByIdAsync(10);
+        await mockService.Received(1).GetBuildingByIdAsync(10, 1);
+    }
+
+    [Fact]
+    public async Task GetBuilding_InvalidUserId_ReturnsUnauthorized()
+    {
+        // Arrange
+        var expectedDto = new BuildingDTO
+        (
+            10,
+            "Building A",
+            "123 Main St",
+            10,
+            BuildingType.Residential,
+            BuildingStatus.Active,
+            new DateOnly(2024, 1, 1)
+        );
+
+        var mockService = Substitute.For<IBuildingService>();
+        var mockValidator = Substitute.For<IValidator<SaveBuildingDTO>>();
+        var buildingsController = BuildingsControllerFactory.Create(mockService, mockValidator);
+
+        // Act
+        var result = await buildingsController.GetBuilding(10);
+
+        // Assert
+        var unauthorizedResult = Assert.IsType<UnauthorizedResult>(result.Result);
+
+        await mockService.DidNotReceive().GetBuildingByIdAsync(Arg.Any<long>(), Arg.Any<long>());
     }
 }

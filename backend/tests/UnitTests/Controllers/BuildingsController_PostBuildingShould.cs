@@ -35,10 +35,10 @@ public class BuildingsController_PostBuildingShould
         );
 
         var mockService = Substitute.For<IBuildingService>();
-        mockService.CreateBuildingAsync(inputDto)
+        mockService.CreateBuildingAsync(inputDto, 1)
             .Returns(expectedDto);
         var validator = new BuildingValidator();
-        var buildingsController = new BuildingsController(mockService, validator);
+        var buildingsController = BuildingsControllerFactory.Create(mockService, validator, userId: 1);
 
 
         // Act
@@ -50,7 +50,7 @@ public class BuildingsController_PostBuildingShould
         Assert.Same(expectedDto, returnedDto);
 
         await mockService.Received(1)
-            .CreateBuildingAsync(inputDto);
+            .CreateBuildingAsync(inputDto, 1);
     }
 
     [Fact]
@@ -68,7 +68,7 @@ public class BuildingsController_PostBuildingShould
 
         var mockService = Substitute.For<IBuildingService>();
         var validator = new BuildingValidator();
-        var buildingsController = new BuildingsController(mockService, validator);
+        var buildingsController = BuildingsControllerFactory.Create(mockService, validator, userId: 1);
 
 
         // Act
@@ -77,7 +77,35 @@ public class BuildingsController_PostBuildingShould
         // Assert
         Assert.IsType<BadRequestObjectResult>(result.Result);
 
-        await mockService.Received(0)
-            .CreateBuildingAsync(inputDto);
+        await mockService.DidNotReceive()
+            .CreateBuildingAsync(inputDto, 1);
+    }
+
+    [Fact]
+    public async Task PostBuilding_InvalidUserId_ReturnsUnauthorized()
+    {
+        // Arrange
+        var inputDto = new SaveBuildingDTO
+        (
+            "Building A",
+            "123 Main St",
+            10,
+            BuildingType.Residential,
+            BuildingStatus.Active
+        );
+
+        var mockService = Substitute.For<IBuildingService>();
+        var validator = new BuildingValidator();
+        var buildingsController = BuildingsControllerFactory.Create(mockService, validator);
+
+
+        // Act
+        var result = await buildingsController.PostBuilding(inputDto);
+
+        // Assert
+        var unauthorizedResult = Assert.IsType<UnauthorizedResult>(result.Result);
+
+        await mockService.DidNotReceive()
+            .CreateBuildingAsync(Arg.Any<SaveBuildingDTO>(), Arg.Any<long>());
     }
 }

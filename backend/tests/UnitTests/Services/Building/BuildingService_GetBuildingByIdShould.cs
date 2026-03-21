@@ -15,6 +15,7 @@ public class BuildingService_GetBuildingByIdShould
         var existingBuilding = new Building
         {
             Id = 10,
+            UserId = 1,
             BuildingName = "Building A",
             BuildingAddress = "123 Main St",
             NumberOfUnits = 10,
@@ -35,17 +36,17 @@ public class BuildingService_GetBuildingByIdShould
         );
 
         var mockRepository = Substitute.For<IBuildingRepository>();
-        mockRepository.GetBuildingByIdAsync(10)
+        mockRepository.GetBuildingByIdAsync(10, 1)
             .Returns(existingBuilding);
         var buildingService = new BuildingService(mockRepository);
 
         // Act
-        var result = await buildingService.GetBuildingByIdAsync(10);
+        var result = await buildingService.GetBuildingByIdAsync(10, 1);
 
         // Assert
         Assert.Equal(expectedDto, result);
 
-        await mockRepository.Received(1).GetBuildingByIdAsync(10);
+        await mockRepository.Received(1).GetBuildingByIdAsync(10, 1);
     }
 
     [Fact]
@@ -53,16 +54,16 @@ public class BuildingService_GetBuildingByIdShould
     {
         // Arrange
         var mockRepository = Substitute.For<IBuildingRepository>();
-        mockRepository.GetBuildingByIdAsync(10)
+        mockRepository.GetBuildingByIdAsync(10, 1)
             .Returns((Building?)null);
         var buildingService = new BuildingService(mockRepository);
 
         // Act
-        var result = await buildingService.GetBuildingByIdAsync(10);
+        var result = await buildingService.GetBuildingByIdAsync(10, 1);
 
         // Assert
         Assert.Null(result);
 
-        await mockRepository.Received(1).GetBuildingByIdAsync(10);
+        await mockRepository.Received(1).GetBuildingByIdAsync(10, 1);
     }
 }

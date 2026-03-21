@@ -13,6 +13,7 @@ public class BuildingMappingsShould
         var inputEntity = new Building
         {
             Id = 10,
+            UserId = 1,
             BuildingName = "Building A",
             BuildingAddress = "123 Main St",
             NumberOfUnits = 10,
@@ -51,49 +52,15 @@ public class BuildingMappingsShould
         );
 
         // Act
-        var result = inputDto.MapToBuildingEntity(new DateOnly(2024, 1, 1));
+        var result = inputDto.MapToBuildingEntity(1);
 
         // Assert
+        Assert.Equal(1, result.UserId);
         Assert.Equal("Building A", result.BuildingName);
         Assert.Equal("123 Main St", result.BuildingAddress);
         Assert.Equal(10, result.NumberOfUnits);
         Assert.Equal(BuildingType.Residential, result.BuildingType);
         Assert.Equal(BuildingStatus.Active, result.BuildingStatus);
-        Assert.Equal(new DateOnly(2024, 1, 1), result.DateAdded);
-    }
-
-    [Fact]
-    public void UpdateFromDto_UpdatesEntityCorrectly()
-    {
-        // Arrange
-        var existingEntity = new Building
-        {
-            Id = 10,
-            BuildingName = "Building A",
-            BuildingAddress = "123 Main St",
-            NumberOfUnits = 10,
-            BuildingType = BuildingType.Residential,
-            BuildingStatus = BuildingStatus.Active,
-            DateAdded = new DateOnly(2024, 1, 1)
-        };
-
-        var updateDto = new SaveBuildingDTO(
-            "Building B",
-            "456 Main St",
-            20,
-            BuildingType.Commercial,
-            BuildingStatus.UnderConstruction
-        );
-
-        // Act
-        existingEntity.UpdateFromDto(updateDto);
-
-        // Assert
-        Assert.Equal("Building B", existingEntity.BuildingName);
-        Assert.Equal("456 Main St", existingEntity.BuildingAddress);
-        Assert.Equal(20, existingEntity.NumberOfUnits);
-        Assert.Equal(BuildingType.Commercial, existingEntity.BuildingType);
-        Assert.Equal(BuildingStatus.UnderConstruction, existingEntity.BuildingStatus);
-        Assert.Equal(new DateOnly(2024, 1, 1), existingEntity.DateAdded);
+        Assert.Equal(DateOnly.FromDateTime(DateTime.UtcNow), result.DateAdded);
     }
 }

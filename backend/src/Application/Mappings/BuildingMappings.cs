@@ -18,7 +18,7 @@ public static class BuildingMappingsExtensions
         );
     }
 
-    public static Building MapToBuildingEntity(this SaveBuildingDTO dto,long userId)
+    public static Building MapToBuildingEntity(this SaveBuildingDTO dto, long userId)
     {
         return new Building
         {
