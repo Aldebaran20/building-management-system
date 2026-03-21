@@ -13,10 +13,10 @@ public class BuildingsController_DeleteBuildingShould
     {
         // Arrange
         var mockService = Substitute.For<IBuildingService>();
-        mockService.DeleteBuildingAsync(10)
+        mockService.DeleteBuildingAsync(10, 1)
             .Returns(true);
         var validator = new BuildingValidator();
-        var buildingsController = new BuildingsController(mockService, validator);
+        var buildingsController = BuildingsControllerFactory.Create(mockService, validator, userId: 1);
 
         // Act
         var result = await buildingsController.DeleteBuilding(10);
@@ -25,7 +25,7 @@ public class BuildingsController_DeleteBuildingShould
         Assert.IsType<NoContentResult>(result);
 
         await mockService.Received(1)
-            .DeleteBuildingAsync(10);
+            .DeleteBuildingAsync(10, 1);
     }
 
     [Fact]
@@ -33,10 +33,10 @@ public class BuildingsController_DeleteBuildingShould
     {
         // Arrange
         var mockService = Substitute.For<IBuildingService>();
-        mockService.DeleteBuildingAsync(10)
+        mockService.DeleteBuildingAsync(10, 1)
             .Returns(false);
         var validator = new BuildingValidator();
-        var buildingsController = new BuildingsController(mockService, validator);
+        var buildingsController = BuildingsControllerFactory.Create(mockService, validator, userId: 1);
 
         // Act
         var result = await buildingsController.DeleteBuilding(10);
@@ -45,6 +45,24 @@ public class BuildingsController_DeleteBuildingShould
         Assert.IsType<NotFoundObjectResult>(result);
 
         await mockService.Received(1)
-            .DeleteBuildingAsync(10);
+            .DeleteBuildingAsync(10, 1);
+    }
+
+    [Fact]
+    public async Task DeleteBuilding_InvalidUserId_ReturnsUnauthorized()
+    {
+        // Arrange
+        var mockService = Substitute.For<IBuildingService>();
+        var validator = new BuildingValidator();
+        var buildingsController = BuildingsControllerFactory.Create(mockService, validator);
+
+        // Act
+        var result = await buildingsController.DeleteBuilding(10);
+
+        // Assert
+        Assert.IsType<UnauthorizedResult>(result);
+
+        await mockService.DidNotReceive()
+            .DeleteBuildingAsync(Arg.Any<long>(), Arg.Any<long>());
     }
 }

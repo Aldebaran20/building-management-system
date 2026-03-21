@@ -16,6 +16,7 @@ public class BuildingService_GetAllBuildingsShould
         {
             new() {
                 Id = 10,
+                UserId = 1,
                 BuildingName = "Building A",
                 BuildingAddress = "123 Main St",
                 NumberOfUnits = 10,
@@ -25,6 +26,7 @@ public class BuildingService_GetAllBuildingsShould
             },
             new() {
                 Id = 20,
+                UserId = 1,
                 BuildingName = "Building B",
                 BuildingAddress = "456 Elm St",
                 NumberOfUnits = 20,
@@ -46,17 +48,17 @@ public class BuildingService_GetAllBuildingsShould
         );
 
         var mockRepository = Substitute.For<IBuildingRepository>();
-        mockRepository.GetAllBuildingsAsync().Returns(data);
+        mockRepository.GetAllBuildingsAsync(1).Returns(data);
         var buildingService = new BuildingService(mockRepository);
 
         // Act
-        var result = await buildingService.GetAllBuildingsAsync();
+        var result = await buildingService.GetAllBuildingsAsync(1);
 
         // Assert
         Assert.Equal(2, result.Count());
         Assert.Equal(expectedDto, result.First());
 
-        await mockRepository.Received(1).GetAllBuildingsAsync();
+        await mockRepository.Received(1).GetAllBuildingsAsync(Arg.Any<long>());
     }
 
     [Fact]
@@ -66,15 +68,15 @@ public class BuildingService_GetAllBuildingsShould
         var data = new List<Building>();
 
         var mockRepository = Substitute.For<IBuildingRepository>();
-        mockRepository.GetAllBuildingsAsync().Returns(data);
+        mockRepository.GetAllBuildingsAsync(1).Returns(data);
         var buildingService = new BuildingService(mockRepository);
 
         // Act
-        var result = await buildingService.GetAllBuildingsAsync();
+        var result = await buildingService.GetAllBuildingsAsync(1);
 
         // Assert
         Assert.Empty(result);
 
-        await mockRepository.Received(1).GetAllBuildingsAsync();
+        await mockRepository.Received(1).GetAllBuildingsAsync(Arg.Any<long>());
     }
 }

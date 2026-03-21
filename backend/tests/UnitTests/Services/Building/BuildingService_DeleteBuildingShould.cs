@@ -14,6 +14,7 @@ public class BuildingService_DeleteBuildingShould
         var existing = new Building
         {
             Id = 10,
+            UserId = 1,
             BuildingName = "Building A",
             BuildingAddress = "123 Main St",
             NumberOfUnits = 1,
@@ -23,18 +24,18 @@ public class BuildingService_DeleteBuildingShould
         };
 
         var mockRepository = Substitute.For<IBuildingRepository>();
-        mockRepository.GetBuildingByIdAsync(10)
+        mockRepository.GetBuildingByIdAsync(10, 1)
             .Returns(existing);
         var buildingService = new BuildingService(mockRepository);
 
         // Act
-        var result = await buildingService.DeleteBuildingAsync(10);
+        var result = await buildingService.DeleteBuildingAsync(10, 1);
 
         // Assert
         Assert.True(result);
 
         await mockRepository.Received(1)
-            .DeleteBuildingAsync(10);
+            .DeleteBuildingAsync(Arg.Is<Building>(b => b.Id == 10 && b.UserId == 1));
     }
 
     [Fact]
@@ -42,17 +43,17 @@ public class BuildingService_DeleteBuildingShould
     {
         // Arrange
         var mockRepository = Substitute.For<IBuildingRepository>();
-        mockRepository.GetBuildingByIdAsync(10)
+        mockRepository.GetBuildingByIdAsync(10, 1)
             .Returns((Building?)null);
         var buildingService = new BuildingService(mockRepository);
 
         // Act
-        var result = await buildingService.DeleteBuildingAsync(10);
+        var result = await buildingService.DeleteBuildingAsync(10, 1);
 
         // Assert
         Assert.False(result);
 
-        await mockRepository.Received(0)
-            .DeleteBuildingAsync(10);
+        await mockRepository.DidNotReceive()
+            .DeleteBuildingAsync(Arg.Any<Building>());
     }
 }

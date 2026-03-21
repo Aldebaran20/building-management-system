@@ -37,9 +37,9 @@ public class BuildingsController_GetBuildingsShould
         };
 
         var mockService = Substitute.For<IBuildingService>();
-        mockService.GetAllBuildingsAsync().Returns(expectedData);
+        mockService.GetAllBuildingsAsync(1).Returns(expectedData);
         var mockValidator = Substitute.For<IValidator<SaveBuildingDTO>>();
-        var buildingsController = new BuildingsController(mockService, mockValidator);
+        var buildingsController = BuildingsControllerFactory.Create(mockService, mockValidator, userId: 1);
 
         // Act
         var result = await buildingsController.GetBuildings();
@@ -49,7 +49,7 @@ public class BuildingsController_GetBuildingsShould
         var returnedData = Assert.IsType<IEnumerable<BuildingDTO>>(okResult.Value, exactMatch: false);
         Assert.Same(expectedData, returnedData);
 
-        await mockService.Received(1).GetAllBuildingsAsync();
+        await mockService.Received(1).GetAllBuildingsAsync(1);
     }
 
     [Fact]
@@ -59,9 +59,9 @@ public class BuildingsController_GetBuildingsShould
         var expectedData = new List<BuildingDTO>();
 
         var mockService = Substitute.For<IBuildingService>();
-        mockService.GetAllBuildingsAsync().Returns(expectedData);
+        mockService.GetAllBuildingsAsync(1).Returns(expectedData);
         var mockValidator = Substitute.For<IValidator<SaveBuildingDTO>>();
-        var buildingsController = new BuildingsController(mockService, mockValidator);
+        var buildingsController = BuildingsControllerFactory.Create(mockService, mockValidator, userId: 1);
 
         // Act
         var result = await buildingsController.GetBuildings();
@@ -71,6 +71,45 @@ public class BuildingsController_GetBuildingsShould
         var returnedData = Assert.IsType<IEnumerable<BuildingDTO>>(okResult.Value, exactMatch: false);
         Assert.Empty(returnedData);
 
-        await mockService.Received(1).GetAllBuildingsAsync();
+        await mockService.Received(1).GetAllBuildingsAsync(1);
+    }
+
+    [Fact]
+    public async Task GetBuildings_InvalidUserId_ReturnsUnauthorized()
+    {
+        // Arrange
+        var expectedData = new List<BuildingDTO>
+        {
+            new(
+                10,
+                "Building A",
+                "123 Main St",
+                10,
+                BuildingType.Residential,
+                BuildingStatus.Active,
+                new DateOnly(2024, 1, 1)
+            ),
+            new(
+                20,
+                "Building B",
+                "456 Elm St",
+                20,
+                BuildingType.Commercial,
+                BuildingStatus.Active,
+                new DateOnly(2024, 1, 1)
+            )
+        };
+
+        var mockService = Substitute.For<IBuildingService>();
+        var mockValidator = Substitute.For<IValidator<SaveBuildingDTO>>();
+        var buildingsController = BuildingsControllerFactory.Create(mockService, mockValidator);
+
+        // Act
+        var result = await buildingsController.GetBuildings();
+
+        // Assert
+        var unauthorizedResult = Assert.IsType<UnauthorizedResult>(result.Result);
+
+        await mockService.DidNotReceive().GetAllBuildingsAsync(Arg.Any<long>());
     }
 }

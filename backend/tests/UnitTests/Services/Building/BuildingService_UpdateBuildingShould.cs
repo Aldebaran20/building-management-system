@@ -15,6 +15,7 @@ public class BuildingService_UpdateBuildingShould
         var existing = new Building
         {
             Id = 10,
+            UserId = 1,
             BuildingName = "Building A",
             BuildingAddress = "123 Main St",
             NumberOfUnits = 1,
@@ -35,6 +36,7 @@ public class BuildingService_UpdateBuildingShould
         var expected = new Building
         {
             Id = 10,
+            UserId = 1,
             BuildingName = "Building B",
             BuildingAddress = "245 Main St",
             NumberOfUnits = 20,
@@ -44,12 +46,12 @@ public class BuildingService_UpdateBuildingShould
         };
 
         var mockRepository = Substitute.For<IBuildingRepository>();
-        mockRepository.GetBuildingByIdAsync(10)
+        mockRepository.GetBuildingByIdAsync(10, 1)
             .Returns(existing);
         var buildingService = new BuildingService(mockRepository);
 
         // Act
-        var result = await buildingService.UpdateBuildingAsync(10, inputDto);
+        var result = await buildingService.UpdateBuildingAsync(10, inputDto, 1);
 
         // Assert
         Assert.True(result);
@@ -63,6 +65,9 @@ public class BuildingService_UpdateBuildingShould
         Assert.Equal(expected.BuildingStatus, existing.BuildingStatus);
         Assert.Equal(expected.DateAdded, existing.DateAdded);
 
+        // Service UpdateBuildingAsync updates the existing building to be equal to
+        //  the expected building, which it sends after mutation as a parameter to
+        //  the repository method
         await mockRepository.Received(1)
             .UpdateBuildingAsync(existing);
     }
@@ -81,17 +86,17 @@ public class BuildingService_UpdateBuildingShould
         );
 
         var mockRepository = Substitute.For<IBuildingRepository>();
-        mockRepository.GetBuildingByIdAsync(10)
+        mockRepository.GetBuildingByIdAsync(10, 1)
             .Returns((Building?)null);
         var buildingService = new BuildingService(mockRepository);
 
         // Act
-        var result = await buildingService.UpdateBuildingAsync(10, inputDto);
+        var result = await buildingService.UpdateBuildingAsync(10, inputDto, 1);
 
         // Assert
         Assert.False(result);
 
-        await mockRepository.Received(0)
+        await mockRepository.DidNotReceive()
             .UpdateBuildingAsync(Arg.Any<Building>());
     }
 }

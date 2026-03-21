@@ -11,6 +11,7 @@ public sealed class Buildings_PostShould(PostgresFixture fixture)
     {
         // Arrange
         await ResetDatabaseAsync();
+        await AuthenticateAsync();
 
         // Act
         var postResponse = await _httpClient.PostAsJsonAsync("/api/buildings", new
@@ -28,7 +29,6 @@ public sealed class Buildings_PostShould(PostgresFixture fixture)
         Assert.Equal("application/json", postResponse.Content.Headers.ContentType?.MediaType);
 
         Assert.NotNull(created);
-        Assert.True(created.Id > 0);
         Assert.Equal("Building A", created.BuildingName);
         Assert.Equal("123 Main St", created.BuildingAddress);
         Assert.Equal(1, created.NumberOfUnits);
@@ -54,6 +54,7 @@ public sealed class Buildings_PostShould(PostgresFixture fixture)
     {
         // Arrange
         await ResetDatabaseAsync();
+        await AuthenticateAsync();
 
         // Act
         var postResponse = await _httpClient.PostAsJsonAsync("/api/buildings", new

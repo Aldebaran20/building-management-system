@@ -15,6 +15,7 @@ public class BuildingService_CreateBuildingShould
         var returnedEntity = new Building
         {
             Id = 10,
+            UserId = 1,
             BuildingName = "Building A",
             BuildingAddress = "123 Main St",
             NumberOfUnits = 10,
@@ -49,12 +50,12 @@ public class BuildingService_CreateBuildingShould
         var buildingService = new BuildingService(mockRepository);
 
         // Act
-        var result = await buildingService.CreateBuildingAsync(inputDto);
+        var result = await buildingService.CreateBuildingAsync(inputDto, 1);
 
         // Assert
         Assert.Equal(expectedDto, result);
 
         await mockRepository.Received(1)
-            .CreateBuildingAsync(Arg.Any<Building>());
+            .CreateBuildingAsync(Arg.Is<Building>(b => b.UserId == 1));
     }   
 }
