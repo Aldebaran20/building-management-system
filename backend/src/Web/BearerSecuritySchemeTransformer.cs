@@ -11,18 +11,23 @@ internal sealed class BearerSecuritySchemeTransformer(IAuthenticationSchemeProvi
         {
             // Ensure instances exist
             document.Components ??= new OpenApiComponents();
+            document.Components.SecuritySchemes ??= new Dictionary<string, OpenApiSecurityScheme>();
             
-            document.Components.SecuritySchemes.Add("Bearer", new OpenApiSecurityScheme
+            if (!document.Components.SecuritySchemes.ContainsKey("Bearer"))
             {
-                Type = SecuritySchemeType.Http,
-                Scheme = "bearer",
-                In = ParameterLocation.Header,
-                BearerFormat = "Json Web Token",
-            });
+                document.Components.SecuritySchemes.Add("Bearer", new OpenApiSecurityScheme
+                {
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    In = ParameterLocation.Header,
+                    BearerFormat = "Json Web Token",
+                });
+            }
 
             // Apply it as a requirement for all operations
             foreach (var operation in document.Paths.Values.SelectMany(path => path.Operations))
             {
+                operation.Value.Security ??= [];
                 operation.Value.Security.Add(new OpenApiSecurityRequirement
                 {
                     

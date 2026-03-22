@@ -37,6 +37,7 @@ public abstract class IntegrationTestBase
             Password = "password123"
         });
 
+        Assert.Equal(System.Net.HttpStatusCode.OK, loginResponse.StatusCode);
         var content = await loginResponse.Content.ReadFromJsonAsync<JsonElement>();
         var token = content.GetProperty("token").GetString();
 

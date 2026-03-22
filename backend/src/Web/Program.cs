@@ -58,7 +58,7 @@ if (builder.Environment.IsDevelopment())
         {
             policy.WithOrigins("http://localhost:5173")
                 .WithMethods("GET", "POST", "PUT", "DELETE")
-                .WithHeaders("Content-Type");
+                .WithHeaders("Content-Type", "Authorization");
         });
     });
 }
