@@ -31,6 +31,6 @@ public class AuthController : ControllerBase
             return Unauthorized();
         }
 
-        return Ok(new { Token = tokenString });
+        return Ok(new { token = tokenString });
     }
 }

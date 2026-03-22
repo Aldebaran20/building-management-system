@@ -38,7 +38,7 @@ public class AuthService : IAuthService
             Subject = new ClaimsIdentity(new[]
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Email, loginDto.Email)
+                new Claim(ClaimTypes.Email, user.Email)
             }),
             // Token expires in 1 hour
             Expires = DateTime.UtcNow.AddHours(1),

@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BMS.UnitTests.Controllers;
 
-public class BuildingsControllerFactory {
-
+public class BuildingsControllerFactory 
+{
     public static BuildingsController Create(
         IBuildingService service,
         IValidator<SaveBuildingDTO> validator,
@@ -29,5 +29,4 @@ public class BuildingsControllerFactory {
         };
         return controller;
     }
-
 }

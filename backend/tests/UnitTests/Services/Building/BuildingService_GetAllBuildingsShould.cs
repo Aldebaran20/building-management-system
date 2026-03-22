@@ -58,7 +58,7 @@ public class BuildingService_GetAllBuildingsShould
         Assert.Equal(2, result.Count());
         Assert.Equal(expectedDto, result.First());
 
-        await mockRepository.Received(1).GetAllBuildingsAsync(Arg.Any<long>());
+        await mockRepository.Received(1).GetAllBuildingsAsync(1);
     }
 
     [Fact]
@@ -77,6 +77,6 @@ public class BuildingService_GetAllBuildingsShould
         // Assert
         Assert.Empty(result);
 
-        await mockRepository.Received(1).GetAllBuildingsAsync(Arg.Any<long>());
+        await mockRepository.Received(1).GetAllBuildingsAsync(1);
     }
 }
