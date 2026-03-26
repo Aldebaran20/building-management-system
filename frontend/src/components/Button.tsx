@@ -19,7 +19,7 @@ export function Button({ children, variant = 'primary', type = 'button', classNa
     <button
       type={type}
       onClick={onClick}
-      className={`px-4 py-2 ${variants[variant]} text-white text-sm font-medium rounded-md transition-colors duration-150 cursor-pointer ${className}`}
+      className={`cursor-pointer px-4 py-2 rounded-md text-sm font-medium text-white transition-colors duration-150 active:scale-95 ${variants[variant]} ${className}`}
     >
       {children}
     </button>

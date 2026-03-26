@@ -1,8 +1,9 @@
-export function TextInput({ label, type, name, defaultValue } : {
+export function TextInput({ label, type, name, placeholder, defaultValue } : {
   label: string,
   type: string
   name: string,
-  defaultValue: string | number
+  placeholder?: string,
+  defaultValue?: string | number
 }) {
   return (
     <div className="flex flex-col gap-1">
@@ -12,8 +13,9 @@ export function TextInput({ label, type, name, defaultValue } : {
         required
         type={type}
         name={name}
+        placeholder={placeholder}
         defaultValue={defaultValue}
-        className="p-2 border border-zinc-800 rounded w-full bg-zinc-900"
+        className="p-2 border border-zinc-600 rounded-lg w-full bg-zinc-800"
       />
     </div>
   )

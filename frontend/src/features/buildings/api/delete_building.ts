@@ -5,6 +5,7 @@ export const deleteBuilding = async (id: number) => {
     method: 'DELETE',
     headers: {
       'accept': 'application/json',
+      'Authorization': `Bearer ${sessionStorage.getItem('token')}`
     },
   })
 
