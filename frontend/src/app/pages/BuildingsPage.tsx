@@ -4,9 +4,21 @@ import { getBuildings } from '@/features/buildings/api/get_buildings'
 import { BuildingForm } from '@/features/buildings/components/BuildingForm'
 import { BuildingList } from '@/features/buildings/components/BuildingList'
 import { Button } from '@/components/Button'
-import '../App.css'
+import { createRoute, redirect } from '@tanstack/react-router'
+import { rootRoute } from '../App'
 
-export function BuildingManagementPage() {
+export const buildingsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/',
+  beforeLoad: () => {
+    if (!sessionStorage.getItem('token')) {
+      throw redirect({ to: '/login' })
+    }
+  },
+  component: BuildingsPage,
+})
+
+function BuildingsPage() {
   const [buildings, setBuildings] = useState<Building[]>([])
   const [isBuildingFormVisible, setIsBuildingFormVisible] = useState(false)
   const [editingBuilding, setEditingBuilding] = useState<Building | null>(null)
@@ -15,7 +27,7 @@ export function BuildingManagementPage() {
     getBuildings()
       .then((data) => setBuildings(data))
       .catch((error) => {
-        console.error('Error fetching building data:', error)
+        console.error(error)
       })
   }
 

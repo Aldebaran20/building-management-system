@@ -20,7 +20,7 @@ export function BuildingCard({ building, onDelete, onEditRequest }: {
         onDelete()
       })
       .catch((error) => {
-        console.error("Error deleting building:", error)
+        console.error(error)
       })
   }
 

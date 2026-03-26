@@ -1,4 +1,4 @@
-import type { Building, SaveBuilding } from "@/types"
+import type { Building, SaveBuilding } from '@/types'
 
 const API_URL = import.meta.env.VITE_API_URL
 
@@ -8,6 +8,7 @@ export const createBuilding = async (building: SaveBuilding): Promise<Building> 
     headers: {
       'accept': 'application/json',
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${sessionStorage.getItem('token')}`
     },
     body: JSON.stringify(building),
   })

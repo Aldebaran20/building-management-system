@@ -84,7 +84,7 @@ if (app.Environment.IsDevelopment())
         {
             var user = new User
             {
-                Email = "Admin",
+                Email = "admin@bms.com",
                 HashedPassword = BCrypt.Net.BCrypt.HashPassword("password123")
             };
             context.Users.Add(user);

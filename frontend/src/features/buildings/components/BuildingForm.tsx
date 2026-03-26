@@ -1,11 +1,11 @@
-import type { Building, SaveBuilding, BuildingType, BuildingStatus } from "@/types"
-import { BUILDING_TYPES, BUILDING_STATUSES } from "@/types"
-import { createBuilding } from "../api/create_building"
-import { updateBuilding } from "../api/update_building"
-import { SelectInput } from "@/components/SelectInput"
-import { TextInput } from "@/components/TextInput"
-import { Button } from "@/components/Button"
-import type { FormEvent } from "react"
+import type { Building, SaveBuilding, BuildingType, BuildingStatus } from '@/types'
+import { BUILDING_TYPES, BUILDING_STATUSES } from '@/types'
+import { createBuilding } from '../api/create_building'
+import { updateBuilding } from '../api/update_building'
+import { SelectInput } from '@/components/SelectInput'
+import { TextInput } from '@/components/TextInput'
+import { Button } from '@/components/Button'
+import type { FormEvent } from 'react'
 
 export function BuildingForm({ onSuccess, building }: {
   onSuccess: () => void
@@ -38,7 +38,7 @@ export function BuildingForm({ onSuccess, building }: {
           onSuccess()
         })
         .catch((error) => {
-          console.error("Error updating building:", error)
+          console.error(error)
         })
     } else {
       createBuilding(savedBuilding)
@@ -46,7 +46,7 @@ export function BuildingForm({ onSuccess, building }: {
           onSuccess()
         })
         .catch((error) => {
-          console.error("Error adding building:", error)
+          console.error(error)
         })
     }
   }

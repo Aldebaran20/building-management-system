@@ -1,4 +1,4 @@
-import { Button } from "./Button"
+import { Button } from './Button'
 
 export function ConfirmDeleteModal({ onConfirm, onCancel, entityName }: {
   onConfirm: () => void

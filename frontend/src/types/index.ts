@@ -23,3 +23,8 @@ export type SaveBuilding = {
   buildingType: BuildingType,
   buildingStatus: BuildingStatus,
 }
+
+export type LoginCredentials = {
+  email: string
+  password: string
+}

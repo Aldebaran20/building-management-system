@@ -1,12 +1,11 @@
-import { BuildingManagementPage } from './pages/BuildingManagementPage'
-import './App.css'
+import { createRootRoute, createRouter, Outlet } from '@tanstack/react-router'
+import { loginRoute } from './pages/LoginPage'
+import { buildingsRoute } from './pages/BuildingsPage'
 
-function App() {
-  return (
-    <>
-      <BuildingManagementPage />
-    </>
-  )
-}
+const RootLayout = () => <Outlet />
 
-export default App
+export const rootRoute = createRootRoute({ component: RootLayout })
+
+const routeTree = rootRoute.addChildren([loginRoute, buildingsRoute])
+
+export const router = createRouter({ routeTree })
