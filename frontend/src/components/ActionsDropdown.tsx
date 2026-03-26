@@ -7,7 +7,7 @@ export function ActionsDropdown({ onMouseLeave, onEditRequest, onDelete }: {
 }) {
   return (
     <div 
-      className="flex flex-col absolute top-8 border border-zinc-500 bg-zinc-800 rounded-md"
+      className="flex flex-col absolute top-8 right-0 border border-zinc-500 bg-zinc-800 rounded-md"
       onMouseLeave={onMouseLeave}
     >
       <button 

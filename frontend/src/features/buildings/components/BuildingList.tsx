@@ -7,7 +7,7 @@ export function BuildingList({ buildings, onDelete, onEditRequest }: {
   onEditRequest: (building: Building) => void
 }) {
   return (
-    <div>
+    <div className="flex flex-col gap-3">
       {buildings.map((building: Building) => (
         <BuildingCard key={building.id} building={building} onDelete={onDelete} onEditRequest={onEditRequest} />
       ))}

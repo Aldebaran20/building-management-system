@@ -52,7 +52,7 @@ export function BuildingForm({ onSuccess, building }: {
   }
 
   return (
-    <form className="flex flex-col gap-8 mt-20" onSubmit={handleSubmit}>
+    <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
       <TextInput label="Building Name" type="text" name="buildingName" defaultValue={buildingName}/>
       <TextInput label="Building Address"  type="text" name="buildingAddress" defaultValue={buildingAddress}/>
       <div className="grid grid-cols-3 gap-4">
