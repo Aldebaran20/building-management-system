@@ -48,48 +48,68 @@ function BuildingsPage() {
     setEditingBuilding(null)
   }
 
-  return (
-    <div className="bg-zinc-950 text-white">
-      <div className="flex items-center justify-between mb-6">
-        {!isBuildingFormVisible ? (
-          <>
-            <div>
-              <h1 className="text-2xl font-semibold mb-1">Buildings</h1>
-              <p className="text-sm text-zinc-400">Manage your buildings here</p>
-            </div>
-            <Button onClick={openAddForm}>
-              Add Building
-            </Button>
-          </>
-        ) : (
-          <>
-            <div>
-              <h1 className="text-2xl font-semibold mb-1">
-                {editingBuilding ? 'Edit Building' : 'New Building'}
-              </h1>
-              <p className="text-sm text-zinc-400">
-                {editingBuilding ? 'Edit the building details below' : 'Add a new building'}
-              </p>
-            </div>
-            <Button variant="danger" onClick={closeForm}>
-              Cancel
-            </Button>
-          </>
-        )}
-      </div>
+  const renderHeader = () => {
+    if (!isBuildingFormVisible) {
+      return (
+        <>
+          <div>
+            <h1 className="text-2xl font-semibold mb-1">Buildings</h1>
+            <p className="text-sm text-zinc-400">Manage your buildings here</p>
+          </div>
+          <Button onClick={openAddForm}>Add Building</Button>
+        </>
+      );
+    }
 
-      {isBuildingFormVisible ? (
+    return (
+      <>
+        <div>
+          <h1 className="text-2xl font-semibold mb-1">
+            {editingBuilding ? 'Edit Building' : 'New Building'}
+          </h1>
+          <p className="text-sm text-zinc-400">
+            {editingBuilding ? 'Edit the building details below' : 'Add a new building'}
+          </p>
+        </div>
+        <Button variant="danger" onClick={closeForm}>Cancel</Button>
+      </>
+    );
+  }
+
+  const renderContent = () => {
+    if (isBuildingFormVisible) {
+      return (
         <BuildingForm 
           onSuccess={() => { closeForm(); fetchBuildings(); }}
           building={editingBuilding ?? undefined}
         />
-      ) : (
-        <BuildingList 
-          buildings={buildings} 
-          onDelete={() => fetchBuildings()} 
-          onEditRequest={openEditForm}
-        />
-      )}
+      );
+    }
+
+    if (buildings.length === 0) {
+      return (
+        <div className="text-center flex flex-col gap-2 mt-52">
+          <h1 className="text-4xl font-semibold">No buildings yet</h1>
+          <p className="text-md text-zinc-400">Add your first building to get started</p>
+        </div>
+      );
+    }
+
+    return (
+      <BuildingList 
+        buildings={buildings} 
+        onDelete={() => fetchBuildings()} 
+        onEditRequest={openEditForm}
+      />
+    );
+  }
+
+  return (
+    <div className="p-12 bg-zinc-950 text-white flex flex-col gap-18">
+      <div className="flex items-center justify-between">
+        {renderHeader()}
+      </div>
+      {renderContent()}
     </div>
   )
 }
