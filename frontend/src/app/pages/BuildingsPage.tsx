@@ -5,7 +5,7 @@ import { BuildingForm } from '@/features/buildings/components/BuildingForm'
 import { BuildingList } from '@/features/buildings/components/BuildingList'
 import { Button } from '@/components/Button'
 import { createRoute, redirect } from '@tanstack/react-router'
-import { rootRoute } from '../App'
+import { rootRoute } from '../root-route'
 
 export const buildingsRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -27,7 +27,7 @@ function BuildingsPage() {
     getBuildings()
       .then((data) => setBuildings(data))
       .catch((error) => {
-        console.error(error)
+        console.error(`Error fetching buildings: ${error}`)
       })
   }
 

@@ -26,7 +26,7 @@ export function LoginForm() {
           navigate({ to: '/' })
         })
         .catch((error) => {
-          console.error(error)
+          console.error(`Login failed: ${error}`)
           setError('Invalid email or password')
         })
     }
