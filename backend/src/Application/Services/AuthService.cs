@@ -23,7 +23,7 @@ public class AuthService : IAuthService
 
     public async Task<string?> LoginAsync(LoginDTO loginDto)
     {
-        var user = await _repository.GetUserByEmailAsync(loginDto.Email.ToLower());
+        var user = await _repository.GetUserByEmailAsync(loginDto.Email.ToLowerInvariant());
 
         // If user is not found or password does not match, return null
         if (user == null || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.HashedPassword))

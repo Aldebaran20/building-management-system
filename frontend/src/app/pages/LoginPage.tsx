@@ -1,6 +1,6 @@
 import { LoginForm } from '@/features/auth/components/LoginForm'
 import { createRoute } from '@tanstack/react-router'
-import { rootRoute } from '../App'
+import { rootRoute } from '../root-route'
 
 export const loginRoute = createRoute({
   getParentRoute: () => rootRoute,

@@ -38,7 +38,7 @@ export function BuildingForm({ onSuccess, building }: {
           onSuccess()
         })
         .catch((error) => {
-          console.error(error)
+          console.error(`Error updating building with ID ${building.id}:`, error)
         })
     } else {
       createBuilding(savedBuilding)
@@ -46,7 +46,7 @@ export function BuildingForm({ onSuccess, building }: {
           onSuccess()
         })
         .catch((error) => {
-          console.error(error)
+          console.error(`Error creating building:`, error)
         })
     }
   }
