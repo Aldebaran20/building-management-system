@@ -66,6 +66,24 @@ if (builder.Environment.IsDevelopment())
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    await context.Database.MigrateAsync();
+
+    if (!await context.Users.AnyAsync())
+    {
+        var user = new User
+        {
+            Email = "admin@bms.com",
+            HashedPassword = BCrypt.Net.BCrypt.HashPassword("password123")
+        };
+        context.Users.Add(user);
+        await context.SaveChangesAsync();
+    }
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -74,39 +92,13 @@ if (app.Environment.IsDevelopment())
         options.DocumentPath = "/openapi/v1.json";
     });
 
-    using (var scope = app.Services.CreateScope())
-    {
-        var services = scope.ServiceProvider;
-        var context = services.GetRequiredService<ApplicationDbContext>();
-        await context.Database.MigrateAsync();
-
-        if (!await context.Users.AnyAsync())
-        {
-            var user = new User
-            {
-                Email = "admin@bms.com",
-                HashedPassword = BCrypt.Net.BCrypt.HashPassword("password123")
-            };
-            context.Users.Add(user);
-            await context.SaveChangesAsync();
-        }
-    }
-
     app.UseCors("AllowDevelopmentFrontend");
 }
 
 app.UseExceptionHandler();
-
-if (!app.Environment.IsDevelopment())
-{
-    app.UseHttpsRedirection();
-}
-
 app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
 
 public partial class Program { }
