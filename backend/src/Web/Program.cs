@@ -61,6 +61,17 @@ if (builder.Environment.IsDevelopment())
                 .WithHeaders("Content-Type", "Authorization");
         });
     });
+} else
+{
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("AllowProductionFrontend", policy =>
+        {
+            policy.WithOrigins("https://buildingmanagementsystem.xyz","https://www.buildingmanagementsystem.xyz")
+                .WithMethods("GET", "POST", "PUT", "DELETE")
+                .WithHeaders("Content-Type", "Authorization");
+        });
+    });
 }
 
 var app = builder.Build();
@@ -93,6 +104,9 @@ if (app.Environment.IsDevelopment())
     });
 
     app.UseCors("AllowDevelopmentFrontend");
+} else
+{
+    app.UseCors("AllowProductionFrontend");
 }
 
 app.UseExceptionHandler();
