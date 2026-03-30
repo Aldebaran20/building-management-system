@@ -33,8 +33,8 @@ export function LoginForm() {
   
   return (
     <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
-      <TextInput label="Email" type="email" name="userEmail" placeholder="john.doe@bms.com"/>
-      <TextInput label="Password" type="password" name="userPassword"/>
+      <TextInput label="Email" type="email" name="userEmail" placeholder="admin@bms.com"/>
+      <TextInput label="Password" type="password" name="userPassword" placeholder="password123"/>
       <div className="flex flex-col gap-2">
         {error && <p className="text-sm text-red-400">{error}</p>}
         <Button type="submit" className="self-end">Login</Button>
