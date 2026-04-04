@@ -2,7 +2,7 @@ using NSubstitute;
 using BMS.Application.Services;
 using BMS.Domain.Entities;
 using BMS.Application.Interfaces;
-using BMS.Application.DTOs;
+using BMS.Application.DTOs.Buildings;
 
 namespace BMS.UnitTests.Services;
 

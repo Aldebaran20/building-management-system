@@ -92,7 +92,7 @@ Swagger UI available at:
 http://localhost:5090/swagger
 
 A default admin user is seeded in development:
-- Email: `Admin`
+- Email: `demo@bms.com`
 - Password: `password123`
 
 

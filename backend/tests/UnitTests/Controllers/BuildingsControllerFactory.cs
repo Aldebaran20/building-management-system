@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using BMS.Application.DTOs;
+using BMS.Application.DTOs.Buildings;
 using BMS.Application.Interfaces;
 using BMS.Web.Controllers;
 using FluentValidation;

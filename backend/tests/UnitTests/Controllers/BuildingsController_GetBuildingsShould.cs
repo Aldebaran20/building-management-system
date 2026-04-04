@@ -3,8 +3,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using BMS.Domain.Entities;
 using BMS.Application.Interfaces;
-using BMS.Application.DTOs;
-using BMS.Web.Controllers;
+using BMS.Application.DTOs.Buildings;
 
 namespace BMS.UnitTests.Controllers;
 

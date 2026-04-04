@@ -1,6 +1,6 @@
 using BMS.Domain.Entities;
 
-namespace BMS.Application.DTOs;
+namespace BMS.Application.DTOs.Buildings;
 
 public record BuildingDTO(
     long Id,

@@ -1,5 +1,5 @@
 using BMS.Domain.Entities;
-using BMS.Application.DTOs;
+using BMS.Application.DTOs.Buildings;
 
 namespace BMS.Application.Mappings;
 
@@ -26,10 +26,9 @@ public static class BuildingMappingsExtensions
             BuildingName = dto.BuildingName,
             BuildingAddress = dto.BuildingAddress,
             NumberOfUnits = dto.NumberOfUnits,
-            BuildingType = dto.BuildingType,
-            BuildingStatus = dto.BuildingStatus,
+            BuildingType = dto.BuildingType!.Value,
+            BuildingStatus = dto.BuildingStatus!.Value,
             DateAdded = DateOnly.FromDateTime(DateTime.UtcNow)
         };
     }
-
 }

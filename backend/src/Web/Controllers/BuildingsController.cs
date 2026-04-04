@@ -1,7 +1,7 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using BMS.Application.Interfaces;
-using BMS.Application.DTOs;
+using BMS.Application.DTOs.Buildings;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 

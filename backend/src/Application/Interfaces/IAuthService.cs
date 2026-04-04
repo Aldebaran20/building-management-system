@@ -1,4 +1,4 @@
-using BMS.Application.DTOs;
+using BMS.Application.DTOs.Auth;
 
 namespace BMS.Application.Interfaces;
 

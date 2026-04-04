@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using BMS.Application.Interfaces;
-using BMS.Application.DTOs;
+using BMS.Application.DTOs.Auth;
 
 namespace BMS.Web.Controllers;
 
