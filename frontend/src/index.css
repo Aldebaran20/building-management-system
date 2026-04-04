@@ -11,3 +11,7 @@ body {
   min-width: 320px;
   background-color: #09090b;
 }
+
+html, body, #root { 
+  height: 100%
+}
