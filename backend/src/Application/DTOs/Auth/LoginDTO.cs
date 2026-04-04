@@ -1,4 +1,4 @@
-namespace BMS.Application.DTOs;
+namespace BMS.Application.DTOs.Auth;
 
 public record LoginDTO(
     string Email,

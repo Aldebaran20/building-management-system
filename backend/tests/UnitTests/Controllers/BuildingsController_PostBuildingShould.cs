@@ -2,8 +2,7 @@ using NSubstitute;
 using Microsoft.AspNetCore.Mvc;
 using BMS.Domain.Entities;
 using BMS.Application.Interfaces;
-using BMS.Application.DTOs;
-using BMS.Web.Controllers;
+using BMS.Application.DTOs.Buildings;
 using BMS.Application.Validators;
 
 namespace BMS.UnitTests.Controllers;
@@ -62,8 +61,8 @@ public class BuildingsController_PostBuildingShould
             "2",
             "shrt",
             0,
-            BuildingType.None,
-            BuildingStatus.None
+            BuildingType.Residential,
+            BuildingStatus.Active
         );
 
         var mockService = Substitute.For<IBuildingService>();

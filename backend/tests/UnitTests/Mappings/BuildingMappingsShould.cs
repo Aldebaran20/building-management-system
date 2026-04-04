@@ -1,5 +1,5 @@
 using BMS.Domain.Entities;
-using BMS.Application.DTOs;
+using BMS.Application.DTOs.Buildings;
 using BMS.Application.Mappings;
 
 namespace BMS.UnitTests.Mappings;

@@ -1,7 +1,6 @@
 using NSubstitute;
 using Microsoft.AspNetCore.Mvc;
 using BMS.Application.Interfaces;
-using BMS.Web.Controllers;
 using BMS.Application.Validators;
 
 namespace BMS.UnitTests.Controllers;

@@ -1,5 +1,5 @@
 using FluentValidation;
-using BMS.Application.DTOs;
+using BMS.Application.DTOs.Buildings;
 
 namespace BMS.Application.Validators;
 

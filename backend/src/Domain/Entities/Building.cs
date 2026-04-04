@@ -18,7 +18,6 @@ public class Building
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum BuildingType
 {
-    None = 0,
     Residential = 10,
     Commercial = 20,
     Industrial = 30,
@@ -28,7 +27,6 @@ public enum BuildingType
 [JsonConverter(typeof(JsonStringEnumConverter))]
 public enum BuildingStatus
 {
-    None = 0,
     Active = 10,
     UnderConstruction = 20,
 }

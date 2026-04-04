@@ -1,5 +1,5 @@
 using BMS.Domain.Entities;
-using BMS.Application.DTOs;
+using BMS.Application.DTOs.Buildings;
 using BMS.Application.Validators;
 
 namespace BMS.UnitTests.Validators;
@@ -194,7 +194,6 @@ public class BuildingValidatorShould
     }
 
     [Theory]
-    [InlineData(0)]     // None (0) should be invalid
     [InlineData(1)]     // Not a defined enum value
     [InlineData(-1)]    // Negative value
     [InlineData(999)]   // Out of range
@@ -242,7 +241,6 @@ public class BuildingValidatorShould
     }
 
     [Theory]
-    [InlineData(0)]     // None (0) should be invalid
     [InlineData(1)]     // Not a defined enum value
     [InlineData(-1)]    // Negative value
     [InlineData(999)]   // Out of range

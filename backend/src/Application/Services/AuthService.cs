@@ -1,4 +1,4 @@
-using BMS.Application.DTOs;
+using BMS.Application.DTOs.Auth;
 using BMS.Application.Interfaces;
 using BMS.Application.Options;
 using System.IdentityModel.Tokens.Jwt;

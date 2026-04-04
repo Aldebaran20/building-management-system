@@ -1,4 +1,4 @@
-using BMS.Application.DTOs;
+using BMS.Application.DTOs.Buildings;
 using BMS.Application.Mappings;
 using BMS.Application.Interfaces;
 
@@ -46,8 +46,8 @@ public class BuildingService : IBuildingService
         existingBuilding.BuildingName = buildingDto.BuildingName;
         existingBuilding.BuildingAddress = buildingDto.BuildingAddress;
         existingBuilding.NumberOfUnits = buildingDto.NumberOfUnits;
-        existingBuilding.BuildingType = buildingDto.BuildingType;
-        existingBuilding.BuildingStatus = buildingDto.BuildingStatus;
+        existingBuilding.BuildingType = buildingDto.BuildingType!.Value;
+        existingBuilding.BuildingStatus = buildingDto.BuildingStatus!.Value;
 
         await _repository.UpdateBuildingAsync(existingBuilding);
         return true;
