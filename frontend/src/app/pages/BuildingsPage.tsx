@@ -5,10 +5,10 @@ import { BuildingForm } from '@/features/buildings/components/BuildingForm'
 import { BuildingList } from '@/features/buildings/components/BuildingList'
 import { Button } from '@/components/Button'
 import { createRoute, redirect } from '@tanstack/react-router'
-import { rootRoute } from '../root-route'
+import { authenticatedRoute } from '@/app/root-route'
 
 export const buildingsRoute = createRoute({
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => authenticatedRoute,
   path: '/',
   beforeLoad: () => {
     if (!sessionStorage.getItem('token')) {
@@ -105,7 +105,7 @@ function BuildingsPage() {
   }
 
   return (
-    <div className="p-12 bg-zinc-950 text-white flex flex-col gap-18">
+    <div className="py-8 px-10 bg-zinc-950 text-white flex flex-col gap-14">
       <div className="flex items-center justify-between">
         {renderHeader()}
       </div>
