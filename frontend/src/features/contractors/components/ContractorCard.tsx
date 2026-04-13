@@ -10,7 +10,7 @@ export function ContractorCard({ contractor, onDelete, onEditRequest }: {
   onDelete: () => void
   onEditRequest: (contractor: Contractor) => void
 }) {
-  const { businessName, contactName, contactEmail, contactPhone, areaOfOperation, contractorType, contractorStatus, dateAdded } = contractor
+  const { businessName, contactName, contactEmail, contactPhone, areaOfOperations, contractorType, contractorStatus, dateAdded } = contractor
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
 
@@ -53,7 +53,7 @@ export function ContractorCard({ contractor, onDelete, onEditRequest }: {
       </div>
       <div className="flex-1 text-center">
         <div className="text-xs text-zinc-500 mb-1">Area of Operation</div>
-        <div>{areaOfOperation || '-'}</div>
+        <div>{areaOfOperations || '-'}</div>
       </div>
       <div className="flex-2 text-center">
         <div className="text-xs text-zinc-500 mb-1">Date Added</div>

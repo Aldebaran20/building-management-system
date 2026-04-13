@@ -4,17 +4,12 @@ import { getBuildings } from '@/features/buildings/api/get_buildings'
 import { BuildingForm } from '@/features/buildings/components/BuildingForm'
 import { BuildingList } from '@/features/buildings/components/BuildingList'
 import { Button } from '@/components/Button'
-import { createRoute, redirect } from '@tanstack/react-router'
+import { createRoute } from '@tanstack/react-router'
 import { authenticatedRoute } from '@/app/root-route'
 
 export const buildingsRoute = createRoute({
   getParentRoute: () => authenticatedRoute,
   path: '/',
-  beforeLoad: () => {
-    if (!sessionStorage.getItem('token')) {
-      throw redirect({ to: '/login' })
-    }
-  },
   component: BuildingsPage,
 })
 
