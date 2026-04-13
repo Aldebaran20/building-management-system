@@ -1,7 +1,8 @@
-export function TextInput({ label, type, name, placeholder, defaultValue } : {
+export function TextInput({ label, type, name, required=false, placeholder, defaultValue } : {
   label: string,
   type: string
   name: string,
+  required?: boolean,
   placeholder?: string,
   defaultValue?: string | number
 }) {
@@ -10,7 +11,7 @@ export function TextInput({ label, type, name, placeholder, defaultValue } : {
       <label htmlFor={name} className="text-sm text-zinc-500">{label}</label>
       <input 
         id={name}
-        required
+        required={required}
         type={type}
         name={name}
         placeholder={placeholder}

@@ -27,7 +27,7 @@ export function Navbar() {
           </span>
         </li>
         <li 
-          onClick={() => navigate({ to: '/' })} 
+          onClick={() => navigate({ to: '/contractors' })} 
           className={`h-12 cursor-pointer flex items-center hover:bg-zinc-800 px-4 gap-2`}
         >
           <HardHat size={18} className="shrink-0"/>

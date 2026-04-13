@@ -25,8 +25,8 @@ export function BuildingForm({ onSuccess, building }: {
     const formData = new FormData(event.currentTarget)
 
     const savedBuilding : SaveBuilding = {
-      buildingName: String(formData.get('buildingName') ?? ''),
-      buildingAddress: String(formData.get('buildingAddress') ?? ''),
+      buildingName: String(formData.get('buildingName')),
+      buildingAddress: String(formData.get('buildingAddress')),
       numberOfUnits: Number(formData.get('numberOfUnits')),
       buildingType: formData.get('buildingType') as BuildingType,
       buildingStatus: formData.get('buildingStatus') as BuildingStatus,
@@ -53,10 +53,10 @@ export function BuildingForm({ onSuccess, building }: {
 
   return (
     <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
-      <TextInput label="Building Name" type="text" name="buildingName" defaultValue={buildingName}/>
-      <TextInput label="Building Address"  type="text" name="buildingAddress" defaultValue={buildingAddress}/>
+      <TextInput label="Building Name" type="text" name="buildingName" required defaultValue={buildingName}/>
+      <TextInput label="Building Address"  type="text" name="buildingAddress" required defaultValue={buildingAddress}/>
       <div className="grid grid-cols-3 gap-4">
-        <TextInput label="Number of Units" type="number" name="numberOfUnits" defaultValue={numberOfUnits}/>
+        <TextInput label="Number of Units" type="number" name="numberOfUnits" required defaultValue={numberOfUnits}/>
         <SelectInput label="Building Type" name="buildingType" options={BUILDING_TYPES} defaultValue={buildingType}/>
         <SelectInput  label="Building Status" name="buildingStatus" options={BUILDING_STATUSES} defaultValue={buildingStatus}/>
       </div>
