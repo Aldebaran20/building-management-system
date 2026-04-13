@@ -4,17 +4,12 @@ import { getContractors } from '@/features/contractors/api/get_contractors'
 import { ContractorForm } from '@/features/contractors/components/ContractorForm'
 import { ContractorList } from '@/features/contractors/components/ContractorList'
 import { Button } from '@/components/Button'
-import { createRoute, redirect } from '@tanstack/react-router'
+import { createRoute } from '@tanstack/react-router'
 import { authenticatedRoute } from '@/app/root-route'
 
 export const contractorsRoute = createRoute({
   getParentRoute: () => authenticatedRoute,
   path: '/contractors',
-  beforeLoad: () => {
-    if (!sessionStorage.getItem('token')) {
-      throw redirect({ to: '/login' })
-    }
-  },
   component: ContractorsPage,
 })
 

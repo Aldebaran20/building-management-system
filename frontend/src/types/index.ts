@@ -42,7 +42,7 @@ export type Contractor = {
   contactName?: string
   contactEmail?: string
   contactPhone: string
-  areaOfOperation?: string
+  areaOfOperations?: string
   contractorType: ContractorType
   contractorStatus: ContractorStatus
   dateAdded: string
@@ -53,7 +53,7 @@ export type SaveContractor = {
   contactName?: string
   contactEmail?: string
   contactPhone: string
-  areaOfOperation?: string
+  areaOfOperations?: string
   contractorType: ContractorType
   contractorStatus: ContractorStatus
 }

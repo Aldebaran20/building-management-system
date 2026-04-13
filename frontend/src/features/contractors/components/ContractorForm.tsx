@@ -17,7 +17,7 @@ export function ContractorForm({ onSuccess, contractor }: {
     contactName = '',
     contactEmail = '',
     contactPhone = '',
-    areaOfOperation = '',
+    areaOfOperations = '',
     contractorType = CONTRACTOR_TYPES[0],
     contractorStatus = CONTRACTOR_STATUSES[0],
   } = contractor ?? {}
@@ -30,8 +30,8 @@ export function ContractorForm({ onSuccess, contractor }: {
       businessName: formData.get('businessName') as string || undefined,
       contactName: formData.get('contactName') as string || undefined,
       contactEmail: formData.get('contactEmail') as string || undefined,
-      contactPhone: formData.get('contactPhone') as string,
-      areaOfOperation: formData.get('areaOfOperation') as string || undefined,
+      contactPhone: String(formData.get('contactPhone') ?? ''),
+      areaOfOperations: formData.get('areaOfOperations') as string || undefined,
       contractorType: formData.get('contractorType') as ContractorType,
       contractorStatus: formData.get('contractorStatus') as ContractorStatus,
     } 
@@ -61,7 +61,7 @@ export function ContractorForm({ onSuccess, contractor }: {
       <TextInput label="Contact Name" type="text" name="contactName" defaultValue={contactName}/>
       <TextInput label="Contact Email" type="email" name="contactEmail" defaultValue={contactEmail}/>
       <TextInput label="Contact Phone" type="tel" name="contactPhone" required defaultValue={contactPhone}/>
-      <TextInput label="Area of Operation" type="text" name="areaOfOperation" defaultValue={areaOfOperation}/>
+      <TextInput label="Area of Operation" type="text" name="areaOfOperations" defaultValue={areaOfOperations}/>
       <div className="grid grid-cols-3 gap-4">
         <SelectInput label="Contractor Type" name="contractorType" options={CONTRACTOR_TYPES} defaultValue={contractorType}/>
         <SelectInput  label="Contractor Status" name="contractorStatus" options={CONTRACTOR_STATUSES} defaultValue={contractorStatus}/>
