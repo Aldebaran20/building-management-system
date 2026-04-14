@@ -16,6 +16,7 @@ export function SelectInput({ label, labelSize = 'sm', name, required=false, opt
 }) {
 
   const labelSizeClass = labelSize === 'xs' ? 'text-xs' : 'text-sm'
+  const stringDefaultValue = defaultValue !== undefined ? String(defaultValue) : ''
 
   return (
     <div className="flex flex-col gap-1">
@@ -24,11 +25,11 @@ export function SelectInput({ label, labelSize = 'sm', name, required=false, opt
         id={name}
         required={required}
         name={name}
-        defaultValue={defaultValue}
+        defaultValue={stringDefaultValue}
         onChange={onChange}
         className="p-2 border border-zinc-800 rounded w-full bg-zinc-900"
       > 
-        {!defaultValue && (
+        {!stringDefaultValue && (
           <option value="">Select an option</option>
         )}
         {options.map((option) => (

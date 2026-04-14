@@ -31,6 +31,7 @@ export function WorkOrderCard({ workOrder, onRefresh, onEditRequest }: {
       .then(onRefresh)
       .catch((error) => {
         console.error('Error updating work order status:', error)
+        onRefresh() // Refresh to revert to old status if update fails
       })
   }
 
