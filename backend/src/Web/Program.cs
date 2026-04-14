@@ -65,7 +65,7 @@ if (builder.Environment.IsDevelopment())
         options.AddPolicy("AllowDevelopmentFrontend", policy =>           
         {
             policy.WithOrigins("http://localhost:5173")
-                .WithMethods("GET", "POST", "PUT", "DELETE")
+                .WithMethods("GET", "POST", "PUT", "PATCH", "DELETE")
                 .WithHeaders("Content-Type", "Authorization");
         });
     });

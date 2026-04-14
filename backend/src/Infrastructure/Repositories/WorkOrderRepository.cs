@@ -46,8 +46,9 @@ public class WorkOrderRepository : IWorkOrderRepository
         await _context.SaveChangesAsync();
     }
 
-    public Task DeleteWorkOrderAsync(WorkOrder workOrder)
+    public async Task DeleteWorkOrderAsync(WorkOrder workOrder)
     {
-        throw new NotImplementedException();
+        _context.WorkOrders.Remove(workOrder);
+        await _context.SaveChangesAsync();
     }
 }
