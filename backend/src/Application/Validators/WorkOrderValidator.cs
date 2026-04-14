@@ -20,5 +20,11 @@ public class WorkOrderValidator : AbstractValidator<SaveWorkOrderDTO>
         RuleFor(wo => wo.Deadline)
             .GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.UtcNow))
             .WithMessage("Deadline cannot be in the past.");
+
+        RuleFor(wo => wo.BuildingId)
+            .GreaterThan(0).WithMessage("Building is required.");
+
+        RuleFor(wo => wo.ContractorId)
+            .GreaterThan(0).WithMessage("Contractor is required.");
     }
 }
