@@ -7,6 +7,7 @@ public class ApplicationDbContext : DbContext
 {
     public DbSet<Building> Buildings { get; set; }
     public DbSet<Contractor> Contractors { get; set; }
+    public DbSet<WorkOrder> WorkOrders { get; set; }
     public DbSet<User> Users { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
