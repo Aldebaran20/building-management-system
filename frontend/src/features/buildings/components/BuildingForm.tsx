@@ -57,8 +57,8 @@ export function BuildingForm({ onSuccess, building }: {
       <TextInput label="Building Address"  type="text" name="buildingAddress" required defaultValue={buildingAddress}/>
       <div className="grid grid-cols-3 gap-4">
         <TextInput label="Number of Units" type="number" name="numberOfUnits" required defaultValue={numberOfUnits}/>
-        <SelectInput label="Building Type" name="buildingType" options={BUILDING_TYPES} defaultValue={buildingType}/>
-        <SelectInput  label="Building Status" name="buildingStatus" options={BUILDING_STATUSES} defaultValue={buildingStatus}/>
+        <SelectInput label="Building Type" name="buildingType" required options={BUILDING_TYPES} defaultValue={buildingType}/>
+        <SelectInput label="Building Status" name="buildingStatus" required options={BUILDING_STATUSES} defaultValue={buildingStatus}/>
       </div>
       <Button type="submit" className="self-end">{building ? "Update Building" : "Add Building"}</Button>
     </form>

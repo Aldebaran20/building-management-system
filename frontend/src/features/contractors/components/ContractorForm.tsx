@@ -63,8 +63,8 @@ export function ContractorForm({ onSuccess, contractor }: {
       <TextInput label="Contact Phone" type="tel" name="contactPhone" required defaultValue={contactPhone}/>
       <TextInput label="Area of Operation" type="text" name="areaOfOperations" defaultValue={areaOfOperations}/>
       <div className="grid grid-cols-3 gap-4">
-        <SelectInput label="Contractor Type" name="contractorType" options={CONTRACTOR_TYPES} defaultValue={contractorType}/>
-        <SelectInput  label="Contractor Status" name="contractorStatus" options={CONTRACTOR_STATUSES} defaultValue={contractorStatus}/>
+        <SelectInput label="Contractor Type" name="contractorType" required options={CONTRACTOR_TYPES} defaultValue={contractorType}/>
+        <SelectInput label="Contractor Status" name="contractorStatus" required options={CONTRACTOR_STATUSES} defaultValue={contractorStatus}/>
       </div>
       <Button type="submit" className="self-end">{contractor ? "Update Contractor" : "Add Contractor"}</Button>
     </form>

@@ -58,6 +58,54 @@ export type SaveContractor = {
   contractorStatus: ContractorStatus
 }
 
+// Work Orders
+
+// Type for possible values returned by the backend
+export type WorkOrderPriority = 'Low' | 'Medium' | 'High' | 'Critical'
+export type WorkOrderStatus = 'Pending' | 'InProgress' | 'Completed' | 'Cancelled'
+
+// Array for user-selectable options in form dropdowns
+export const WORK_ORDER_PRIORITIES: WorkOrderPriority[] = ['Low', 'Medium', 'High', 'Critical']
+export const WORK_ORDER_STATUSES: WorkOrderStatus[] = ['Pending', 'InProgress', 'Completed', 'Cancelled']
+
+export type WorkOrderBuilding = {
+  id: number
+  buildingName: string
+  buildingAddress: string
+  buildingType: BuildingType
+}
+
+export type WorkOrderContractor = {
+  id: number
+  businessName?: string
+  contactName?: string
+  contactEmail?: string
+  contactPhone: string
+  contractorType: ContractorType
+}
+
+export type WorkOrder = {
+  id: number
+  title: string
+  description?: string
+  priority?: WorkOrderPriority
+  status: WorkOrderStatus
+  dateCreated: string
+  deadline?: string
+  dateCompleted?: string
+  building: WorkOrderBuilding
+  contractor: WorkOrderContractor
+}
+
+export type SaveWorkOrder = {
+  buildingId: number
+  contractorId: number
+  title: string
+  description?: string
+  priority?: WorkOrderPriority
+  deadline?: string
+}
+
 // Auth
 
 export type LoginCredentials = {
