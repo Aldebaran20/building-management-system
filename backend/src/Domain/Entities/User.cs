@@ -7,4 +7,5 @@ public class User
     public required string HashedPassword { get; set; }
     public ICollection<Building> Buildings { get; } = new List<Building>();
     public ICollection<Contractor> Contractors { get; } = new List<Contractor>();
+    public ICollection<WorkOrder> WorkOrders { get; } = new List<WorkOrder>();
 }
