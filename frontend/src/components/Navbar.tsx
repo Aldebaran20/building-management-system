@@ -1,12 +1,12 @@
 import { Link } from '@tanstack/react-router'
-import { Building, HardHat, ArrowRightFromLine, ArrowLeftFromLine } from 'lucide-react'
+import { Building, HardHat, ClipboardList, ArrowRightFromLine, ArrowLeftFromLine } from 'lucide-react'
 import { useState } from 'react'
 
 export function Navbar() {
   const [isExpanded, setIsExpanded] = useState(false)
 
   return (
-    <nav className={`h-full ${isExpanded ? 'w-36' : 'w-12'} duration-150 py-2 flex flex-col gap-24 bg-zinc-900 text-white`}>
+    <nav className={`h-full ${isExpanded ? 'w-40' : 'w-12'} duration-150 py-2 flex flex-col gap-24 bg-zinc-900 text-white`}>
       <div className="flex justify-center">
         <button 
           className={`h-10 w-10 flex items-center justify-center rounded-full cursor-pointer hover:bg-zinc-800`}
@@ -32,6 +32,14 @@ export function Navbar() {
           <HardHat size={18} className="shrink-0"/>
           <span className={`overflow-hidden duration-150 ${isExpanded ? 'max-w-full' : 'max-w-0'}`}>
             Contractors
+          </span>
+        </Link>
+        <Link to="/work-orders"
+          className={`h-12 cursor-pointer flex items-center hover:bg-zinc-800 px-4 gap-2`}
+        >
+          <ClipboardList size={18} className="shrink-0"/>
+          <span className={`overflow-hidden duration-150 ${isExpanded ? 'max-w-full' : 'max-w-0'}`}>
+            Work Orders
           </span>
         </Link>
       </div>
