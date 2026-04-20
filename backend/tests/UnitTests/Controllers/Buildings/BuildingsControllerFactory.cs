@@ -6,7 +6,7 @@ using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BMS.UnitTests.Controllers;
+namespace BMS.UnitTests.Controllers.Buildings;
 
 public class BuildingsControllerFactory 
 {

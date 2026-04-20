@@ -3,7 +3,7 @@ using BMS.Application.Services;
 using BMS.Domain.Entities;
 using BMS.Application.Interfaces;
 
-namespace BMS.UnitTests.Services;
+namespace BMS.UnitTests.Services.Buildings;
 
 public class BuildingService_DeleteBuildingShould
 {

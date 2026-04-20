@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using BMS.Application.Interfaces;
 using BMS.Application.Validators;
 
-namespace BMS.UnitTests.Controllers;
+namespace BMS.UnitTests.Controllers.Buildings;
 
 public class BuildingsController_DeleteBuildingShould
 {

@@ -5,7 +5,7 @@ using BMS.Domain.Entities;
 using BMS.Application.Interfaces;
 using BMS.Application.DTOs.Buildings;
 
-namespace BMS.UnitTests.Controllers;
+namespace BMS.UnitTests.Controllers.Buildings;
 
 public class BuildingsController_GetBuildingShould
 {

@@ -5,7 +5,7 @@ using BMS.Application.Interfaces;
 using BMS.Application.DTOs.Buildings;
 using BMS.Application.Validators;
 
-namespace BMS.UnitTests.Controllers;
+namespace BMS.UnitTests.Controllers.Buildings;
 
 public class BuildingsController_PutBuildingShould
 {

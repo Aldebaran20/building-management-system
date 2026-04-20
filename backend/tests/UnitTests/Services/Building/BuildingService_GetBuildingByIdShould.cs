@@ -4,7 +4,7 @@ using BMS.Domain.Entities;
 using BMS.Application.Interfaces;
 using BMS.Application.DTOs.Buildings;
 
-namespace BMS.UnitTests.Services;
+namespace BMS.UnitTests.Services.Buildings;
 
 public class BuildingService_GetBuildingByIdShould
 {
